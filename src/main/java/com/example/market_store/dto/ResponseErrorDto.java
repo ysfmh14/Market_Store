@@ -1,4 +1,4 @@
-package com.example.market_store.dtos;
+package com.example.market_store.dto;
 
 import lombok.Getter;
 import lombok.Setter;

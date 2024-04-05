@@ -1,8 +1,8 @@
-package com.example.market_store.ExceptionHandlers;
+package com.example.market_store.ExceptionHandler;
 
-import com.example.market_store.dtos.ResponseErrorDto;
-import com.example.market_store.exceptions.EntityAlreadyExisteException;
-import com.example.market_store.exceptions.EntityNotFoundException;
+import com.example.market_store.dto.ResponseErrorDto;
+import com.example.market_store.exception.EntityAlreadyExisteException;
+import com.example.market_store.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,10 +1,8 @@
-package com.example.market_store.services;
+package com.example.market_store.service;
 
-import com.example.market_store.dtos.RequestUsersDto;
-import com.example.market_store.dtos.ResponseUsersDto;
+import com.example.market_store.dto.RequestUsersDto;
+import com.example.market_store.dto.ResponseUsersDto;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 public interface UserService {
     Page<ResponseUsersDto> getAllUsers(int page , int size);

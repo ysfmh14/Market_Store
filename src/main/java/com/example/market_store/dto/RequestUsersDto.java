@@ -1,4 +1,4 @@
-package com.example.market_store.dtos;
+package com.example.market_store.dto;
 
 import lombok.*;
 
@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RequestUsersDto {
     private Long id;
     private String userCode;

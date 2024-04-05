@@ -1,19 +1,18 @@
-package com.example.market_store.services.Impl;
+package com.example.market_store.service.Impl;
 
-import com.example.market_store.dtos.RequestUsersDto;
-import com.example.market_store.dtos.ResponseUsersDto;
-import com.example.market_store.entities.Users;
-import com.example.market_store.exceptions.EntityAlreadyExisteException;
-import com.example.market_store.exceptions.EntityNotFoundException;
-import com.example.market_store.mappers.UsersMapper;
-import com.example.market_store.repositories.UsersRepo;
-import com.example.market_store.services.UserService;
+import com.example.market_store.dto.RequestUsersDto;
+import com.example.market_store.dto.ResponseUsersDto;
+import com.example.market_store.entitie.Users;
+import com.example.market_store.exception.EntityAlreadyExisteException;
+import com.example.market_store.exception.EntityNotFoundException;
+import com.example.market_store.mapper.UsersMapper;
+import com.example.market_store.repositorie.UsersRepo;
+import com.example.market_store.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
