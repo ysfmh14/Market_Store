@@ -1,5 +1,6 @@
 package com.example.market_store.service.Impl;
 
+import com.example.market_store.criteria.UserCriteria;
 import com.example.market_store.dto.RequestUsersDto;
 import com.example.market_store.dto.ResponseUsersDto;
 import com.example.market_store.entitie.Users;
@@ -8,11 +9,15 @@ import com.example.market_store.exception.EntityNotFoundException;
 import com.example.market_store.mapper.UsersMapper;
 import com.example.market_store.repositorie.UsersRepo;
 import com.example.market_store.service.UserService;
+import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,6 +34,26 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("users Not Found");
         }
         return usersMapper.modelToDtos(usersPage);
+    }
+
+    @Override
+    public Page<ResponseUsersDto> findUsersByCriteria(UserCriteria userCriteria,int page , int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        Page<Users> etudiantPage = usersRepo.findAll((root, query, criteriaBuilder) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            if (userCriteria.getId() != null){
+                predicateList.add(criteriaBuilder.equal(root.get("id"),userCriteria.getId()));
+            }
+            if (userCriteria.getFirstName() != null){
+                predicateList.add(criteriaBuilder.equal(root.get("firstName"),userCriteria.getFirstName()));
+            }
+            if (userCriteria.getLastName() != null){
+                predicateList.add(criteriaBuilder.equal(root.get("lastName"),userCriteria.getLastName()));
+            }
+            return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
+
+        } , pageable);
+        return usersMapper.modelToDtos(etudiantPage);
     }
 
     @Override
