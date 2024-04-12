@@ -1,0 +1,17 @@
+package com.example.market_store.service;
+
+import com.example.market_store.criteria.SellerCriteria;
+import com.example.market_store.criteria.UserCriteria;
+import com.example.market_store.dto.RequestSellerDto;
+import com.example.market_store.dto.RequestUsersDto;
+import com.example.market_store.dto.ResponseSellerDto;
+import com.example.market_store.dto.ResponseUsersDto;
+import org.springframework.data.domain.Page;
+
+public interface SellerService {
+
+    Page<ResponseSellerDto> findSellerByCriteria(SellerCriteria sellerCriteria, int page , int size);
+    ResponseSellerDto addSeller(RequestSellerDto requestSellerDto);
+    ResponseSellerDto UpdateSeller(RequestSellerDto requestSellerDto);
+    void  deleteSeller(long id);
+}

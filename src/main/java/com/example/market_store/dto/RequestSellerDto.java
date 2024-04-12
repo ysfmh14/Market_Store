@@ -1,15 +1,18 @@
 package com.example.market_store.dto;
 
-import lombok.*;
+import jakarta.persistence.Column;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RequestUsersDto {
+public class RequestSellerDto {
     private Long id ;
-    private String userCode;
+    private String sellerCode;
     private String firstName;
     private String lastName;
     private String phone;
@@ -17,4 +20,6 @@ public class RequestUsersDto {
     private String city;
     private String country;
     private String address;
+    private String rib;
+    private boolean isActive;
 }

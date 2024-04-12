@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<ResponseUsersDto> findUsersByCriteria(UserCriteria userCriteria,int page , int size) {
         PageRequest pageable = PageRequest.of(page, size);
-        Page<Users> etudiantPage = usersRepo.findAll((root, query, criteriaBuilder) -> {
+        Page<Users> usersPage = usersRepo.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
             if (userCriteria.getId() != null){
                 predicateList.add(criteriaBuilder.equal(root.get("id"),userCriteria.getId()));
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
 
         } , pageable);
-        return usersMapper.modelToDtos(etudiantPage);
+        return usersMapper.modelToDtos(usersPage);
     }
 
     @Override
@@ -67,13 +67,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseUsersDto addUser(RequestUsersDto requestUserDto) {
-        Optional<Users> existingUser = usersRepo.findById(requestUserDto.getId());
-        if (existingUser.isPresent()) {
-            throw new EntityAlreadyExisteException("User already exists with id: " + requestUserDto.getId());
-        }
+
         String generatedCodeUser = "USR" + UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         Users userToSave = usersMapper.dtoToModel(requestUserDto);
         userToSave.setUserCode(generatedCodeUser);
+        Optional<Users> existingUser = usersRepo.findByUserCode(requestUserDto.getUserCode());
+        if (existingUser.isPresent()) {
+            throw new EntityAlreadyExisteException("User already exists with id: " + requestUserDto.getUserCode());
+        }
         Users savedUser = usersRepo.save(userToSave);
         return usersMapper.modelToDto(savedUser);
     }
@@ -81,11 +82,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseUsersDto UpdateUser(RequestUsersDto requestUserDto) {
         System.out.println(requestUserDto.getUserCode());
-        Optional<Users> existingUser = usersRepo.findById(requestUserDto.getId());
-//        if (!existingUser.isPresent()){
-//            throw new EntityNotFoundException("User Not Found   ");
-//        }
+        Optional<Users> existingUser = usersRepo.findByUserCode(requestUserDto.getUserCode());
+        if (existingUser.isEmpty()){
+            throw new EntityNotFoundException("User Not Found ");
+        }
         Users userToUpdate = usersMapper.dtoToModel(requestUserDto);
+        userToUpdate.setUserCode(existingUser.get().getUserCode());
         Users updatedUser = usersRepo.save(userToUpdate);
         return usersMapper.modelToDto(updatedUser);
     }
