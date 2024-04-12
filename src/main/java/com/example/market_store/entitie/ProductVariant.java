@@ -20,7 +20,7 @@ public class ProductVariant {
     @Column(name = "color")
     private String color;
     @Column(name = "size")
-    private String psize;
+    private String size;
     @Column(name = "quantity")
     private String quantity;
     @Column(name = "unitPrice")

@@ -22,7 +22,5 @@ public class SubCategory {
     @Column(name = "description")
     private String description;
     @ManyToOne
-    private SubCategory subCategory;
-    @ManyToOne
-    private Seller seller;
+    private Category Category;
 }

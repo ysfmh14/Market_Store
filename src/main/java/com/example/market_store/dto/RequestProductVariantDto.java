@@ -1,0 +1,24 @@
+package com.example.market_store.dto;
+
+import com.example.market_store.entitie.Product;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class RequestProductVariantDto {
+    private Long id;
+    private String productVariantCode;
+    private String color;
+    private String size;
+    private String quantity;
+    private String unitPrice;
+    private boolean available;
+    private RequestProductDto requestProductDto;
+}
