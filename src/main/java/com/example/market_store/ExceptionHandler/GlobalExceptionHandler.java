@@ -1,6 +1,6 @@
 package com.example.market_store.ExceptionHandler;
 
-import com.example.market_store.dto.ResponseErrorDto;
+import com.example.market_store.dto.responseDto.ResponseErrorDto;
 import com.example.market_store.exception.EntityAlreadyExisteException;
 import com.example.market_store.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;

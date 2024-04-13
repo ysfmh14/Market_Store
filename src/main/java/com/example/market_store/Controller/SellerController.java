@@ -1,11 +1,8 @@
 package com.example.market_store.Controller;
 
 import com.example.market_store.criteria.SellerCriteria;
-import com.example.market_store.criteria.UserCriteria;
-import com.example.market_store.dto.RequestSellerDto;
-import com.example.market_store.dto.RequestUsersDto;
-import com.example.market_store.dto.ResponseSellerDto;
-import com.example.market_store.dto.ResponseUsersDto;
+import com.example.market_store.dto.requestDto.RequestSellerDto;
+import com.example.market_store.dto.responseDto.ResponseSellerDto;
 import com.example.market_store.service.SellerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

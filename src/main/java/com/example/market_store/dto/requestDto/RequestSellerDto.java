@@ -1,5 +1,6 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.requestDto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseSellerDto {
+public class RequestSellerDto {
+    private Long id ;
     private String sellerCode;
     private String firstName;
     private String lastName;
@@ -21,4 +23,3 @@ public class ResponseSellerDto {
     private String rib;
     private boolean isActive;
 }
-

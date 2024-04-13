@@ -1,11 +1,8 @@
 package com.example.market_store.mapper;
 
-import com.example.market_store.dto.RequestSellerDto;
-import com.example.market_store.dto.RequestUsersDto;
-import com.example.market_store.dto.ResponseSellerDto;
-import com.example.market_store.dto.ResponseUsersDto;
+import com.example.market_store.dto.requestDto.RequestSellerDto;
+import com.example.market_store.dto.responseDto.ResponseSellerDto;
 import com.example.market_store.entitie.Seller;
-import com.example.market_store.entitie.Users;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.Page;

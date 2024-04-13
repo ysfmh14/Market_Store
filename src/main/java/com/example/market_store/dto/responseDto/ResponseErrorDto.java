@@ -1,4 +1,4 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.responseDto;
 
 import lombok.Getter;
 import lombok.Setter;

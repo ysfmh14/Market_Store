@@ -1,7 +1,5 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.responseDto;
 
-import com.example.market_store.entitie.Seller;
-import com.example.market_store.entitie.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

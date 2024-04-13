@@ -1,9 +1,6 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.responseDto;
 
 import com.example.market_store.entitie.ProductVariant;
-import com.example.market_store.entitie.Seller;
-import com.example.market_store.entitie.SubCategory;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,8 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RequestProductDto {
-    private Long id;
+public class ResponseProductDto {
     private String productCode;
     private String name;
     private String description;
@@ -24,6 +20,7 @@ public class RequestProductDto {
     private int quantity;
     private double unitPrice;
     private boolean available;
-    private RequestSellerDto requestSellerDto;
-    private RequestSubCategoryDto requestSubCategoryDto;
+    private ResponseSellerDto responseSellerDto;
+    private ResponseSubCategoryDto responseSubCategoryDto;
+    private List<ProductVariant> productVariants;
 }

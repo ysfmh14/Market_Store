@@ -13,12 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Users {
+public class Deliveryman {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "userCode",unique = true)
-    private String userCode;
+    @Column(name = "deliverymanCode",unique = true)
+    private String deliverymanCode;
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
@@ -31,8 +31,10 @@ public class Users {
     private String city;
     @Column(name = "country")
     private String country;
-    @Column(name = "address")
-    private String address;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Order> orders;
+    @Column(name = "rib",length = 24)
+    private String rib;
+    @Column(name = "isActive")
+    private boolean isActive;
+    @OneToMany(mappedBy = "deliveryman", fetch = FetchType.LAZY)
+    private List<Delivery> deliveries;
 }

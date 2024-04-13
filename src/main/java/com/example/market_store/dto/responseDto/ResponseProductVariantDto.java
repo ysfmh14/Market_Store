@@ -1,5 +1,6 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.responseDto;
 
+import com.example.market_store.dto.requestDto.RequestProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

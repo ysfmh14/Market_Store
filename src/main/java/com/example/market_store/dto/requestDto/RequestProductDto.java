@@ -1,6 +1,5 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.requestDto;
 
-import com.example.market_store.entitie.ProductVariant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseProductDto {
+public class RequestProductDto {
+    private Long id;
     private String productCode;
     private String name;
     private String description;
@@ -20,7 +20,6 @@ public class ResponseProductDto {
     private int quantity;
     private double unitPrice;
     private boolean available;
-    private ResponseSellerDto responseSellerDto;
-    private ResponseSubCategoryDto responseSubCategoryDto;
-    private List<ProductVariant> productVariants;
+    private RequestSellerDto requestSellerDto;
+    private RequestSubCategoryDto requestSubCategoryDto;
 }

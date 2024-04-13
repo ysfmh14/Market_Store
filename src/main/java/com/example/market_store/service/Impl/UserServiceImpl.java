@@ -1,8 +1,8 @@
 package com.example.market_store.service.Impl;
 
 import com.example.market_store.criteria.UserCriteria;
-import com.example.market_store.dto.RequestUsersDto;
-import com.example.market_store.dto.ResponseUsersDto;
+import com.example.market_store.dto.requestDto.RequestUsersDto;
+import com.example.market_store.dto.responseDto.ResponseUsersDto;
 import com.example.market_store.entitie.Users;
 import com.example.market_store.exception.EntityAlreadyExisteException;
 import com.example.market_store.exception.EntityNotFoundException;
@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

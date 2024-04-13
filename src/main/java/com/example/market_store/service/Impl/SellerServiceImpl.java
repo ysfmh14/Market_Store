@@ -1,10 +1,9 @@
 package com.example.market_store.service.Impl;
 
 import com.example.market_store.criteria.SellerCriteria;
-import com.example.market_store.dto.RequestSellerDto;
-import com.example.market_store.dto.ResponseSellerDto;
+import com.example.market_store.dto.requestDto.RequestSellerDto;
+import com.example.market_store.dto.responseDto.ResponseSellerDto;
 import com.example.market_store.entitie.Seller;
-import com.example.market_store.entitie.Users;
 import com.example.market_store.exception.EntityAlreadyExisteException;
 import com.example.market_store.exception.EntityNotFoundException;
 import com.example.market_store.mapper.SellerMapper;

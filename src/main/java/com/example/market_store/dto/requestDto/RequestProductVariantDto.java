@@ -1,8 +1,5 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.requestDto;
 
-import com.example.market_store.entitie.Product;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

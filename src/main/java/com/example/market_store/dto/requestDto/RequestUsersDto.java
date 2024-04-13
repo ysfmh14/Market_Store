@@ -1,4 +1,4 @@
-package com.example.market_store.dto;
+package com.example.market_store.dto.requestDto;
 
 import lombok.*;
 
@@ -7,7 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseUsersDto {
+public class RequestUsersDto {
+    private Long id ;
     private String userCode;
     private String firstName;
     private String lastName;
@@ -16,5 +17,4 @@ public class ResponseUsersDto {
     private String city;
     private String country;
     private String address;
-
 }

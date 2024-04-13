@@ -1,14 +1,12 @@
 package com.example.market_store.Controller;
 
 import com.example.market_store.criteria.UserCriteria;
-import com.example.market_store.dto.RequestUsersDto;
-import com.example.market_store.dto.ResponseUsersDto;
+import com.example.market_store.dto.requestDto.RequestUsersDto;
+import com.example.market_store.dto.responseDto.ResponseUsersDto;
 import com.example.market_store.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
