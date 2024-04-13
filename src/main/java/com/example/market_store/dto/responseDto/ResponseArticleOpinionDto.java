@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResponseArticleOpinion {
+public class ResponseArticleOpinionDto {
     private String opinionCode;
     private String opinion;
     private RequestUsersDto requestUsersDto;

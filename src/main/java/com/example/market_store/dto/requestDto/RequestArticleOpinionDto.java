@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RequestArticleOpinion {
+public class RequestArticleOpinionDto {
     private Long id;
     private String opinionCode;
     private String opinion;
