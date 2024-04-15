@@ -1,10 +1,7 @@
 package com.example.market_store.mapper;
 
-import com.example.market_store.dto.requestDto.RequestSellerDto;
 import com.example.market_store.dto.requestDto.RequestSubCategoryDto;
-import com.example.market_store.dto.responseDto.ResponseSellerDto;
 import com.example.market_store.dto.responseDto.ResponseSubCategoryDto;
-import com.example.market_store.entitie.Seller;
 import com.example.market_store.entitie.SubCategory;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
