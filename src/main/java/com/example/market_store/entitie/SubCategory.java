@@ -21,6 +21,8 @@ public class SubCategory {
     private String name;
     @Column(name = "description")
     private String description;
+    @Transient
+    private Long categoryId;
     @ManyToOne
     private Category Category;
 }

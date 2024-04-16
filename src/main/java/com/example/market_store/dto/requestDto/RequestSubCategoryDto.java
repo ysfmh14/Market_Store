@@ -14,5 +14,5 @@ public class RequestSubCategoryDto {
     private String subCategoryCode;
     private String name;
     private String description;
-    private RequestCategoryDto requestCategoryDto;
+    private Long categoryId;
 }

@@ -23,7 +23,7 @@ public class Delivery {
     private String deliveryAddress;
     @Column(name = "deliveryDate")
     private String deliveryDate;
-    @OneToOne
+    @ManyToOne
     private Order order;
     @ManyToOne
     private Deliveryman deliveryman;

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "ordert")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

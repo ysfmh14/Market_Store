@@ -1,11 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/market_store?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost/market_store_DB?createDatabaseIfNotExist=true
     username: root
     password:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 server:
   servlet:

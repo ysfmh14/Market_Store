@@ -15,4 +15,5 @@ public class RequestCategoryDto {
     private String categoryCode;
     private String name;
     private String description;
+
 }
