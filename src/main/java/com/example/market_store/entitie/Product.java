@@ -1,5 +1,6 @@
 package com.example.market_store.entitie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,11 +33,16 @@ public class Product {
     private double unitPrice;
     @Column(name = "available")
     private boolean available;
+    @Transient
+    private Long sellerId;
+    @Transient
+    private Long subCategoryId;
     @ManyToOne
     private Seller seller;
     @ManyToOne
     private SubCategory subCategory;
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<ProductVariant> productVariants;
 
 

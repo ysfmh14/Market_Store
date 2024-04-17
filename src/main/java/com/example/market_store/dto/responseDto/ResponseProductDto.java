@@ -1,5 +1,7 @@
 package com.example.market_store.dto.responseDto;
 
+import com.example.market_store.dto.requestDto.RequestProductDto;
+import com.example.market_store.dto.requestDto.RequestProductVariantDto;
 import com.example.market_store.entitie.ProductVariant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +22,7 @@ public class ResponseProductDto {
     private int quantity;
     private double unitPrice;
     private boolean available;
-    private ResponseSellerDto responseSellerDto;
-    private ResponseSubCategoryDto responseSubCategoryDto;
-    private List<ProductVariant> productVariants;
+    private ResponseSellerDto seller;
+    private ResponseSubCategoryDto subCategory;
+    private List<ResponseProductVariantDto> productVariants;
 }

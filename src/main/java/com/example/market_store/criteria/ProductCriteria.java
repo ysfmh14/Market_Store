@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductCriteria {
+    private Long id;
     private String productCode;
     private String name;
     private String description;

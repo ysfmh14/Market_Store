@@ -1,5 +1,6 @@
 package com.example.market_store.dto.requestDto;
 
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class RequestProductDto {
     private int quantity;
     private double unitPrice;
     private boolean available;
-    private RequestSellerDto requestSellerDto;
-    private RequestSubCategoryDto requestSubCategoryDto;
+    private Long sellerId;
+    private Long subCategoryId;
+
 }

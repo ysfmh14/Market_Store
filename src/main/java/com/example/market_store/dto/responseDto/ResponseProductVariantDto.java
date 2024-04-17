@@ -17,5 +17,5 @@ public class ResponseProductVariantDto {
     private String quantity;
     private String unitPrice;
     private boolean available;
-    private RequestProductDto requestProductDto;
+    private RequestProductDto product;
 }

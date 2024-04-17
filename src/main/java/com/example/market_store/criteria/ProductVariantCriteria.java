@@ -15,4 +15,6 @@ public class ProductVariantCriteria {
     private String quantity;
     private String unitPrice;
     private boolean available;
+    private Long productId;
 }
+
