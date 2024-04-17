@@ -23,6 +23,8 @@ public class Delivery {
     private String deliveryAddress;
     @Column(name = "deliveryDate")
     private String deliveryDate;
+    @Transient
+    private Long  deliverymanId;
     @ManyToOne
     private Order order;
     @ManyToOne

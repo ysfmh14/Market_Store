@@ -60,7 +60,6 @@ public class SubCategoryServiceImpl implements SubCategoryService {
             throw new EntityAlreadyExisteException("SubCategory already exists with id: " + requestSubCategoryDto.getId());
         }
         SubCategory savedSubCategory = subCategoryRepo.save(subCategoryToSave);
-        System.out.println("test  "+savedSubCategory);
         return subCategoryMapper.modelToDto(savedSubCategory);
     }
 

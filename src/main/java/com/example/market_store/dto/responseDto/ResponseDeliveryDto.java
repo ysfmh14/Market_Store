@@ -18,5 +18,5 @@ public class ResponseDeliveryDto {
     private String deliveryAddress;
     private String deliveryDate;
     private RequestOrderDto requestOrderDto;
-    private RequestDeliverymanDto requestDeliverymanDto;
+    private RequestDeliverymanDto Deliveryman;
 }
