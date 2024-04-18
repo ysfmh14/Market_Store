@@ -18,7 +18,7 @@ public class ResponseOrderDto {
     private String orderCode;
     private String status;
     private LocalDateTime dateTimeOrder;
-    private RequestDeliveryDto requestDeliveryDto;
-    private RequestPaymentDto requestPaymentDto;
-    private RequestUsersDto requestUsersDto;
+    private double totalPrice;
+    private RequestDeliveryDto delivery;
+    private RequestUsersDto user;
 }

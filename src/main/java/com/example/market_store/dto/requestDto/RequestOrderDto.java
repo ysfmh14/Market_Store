@@ -17,8 +17,7 @@ public class RequestOrderDto {
     private Long id;
     private String orderCode;
     private String status;
+    private double totalPrice;
     private LocalDateTime dateTimeOrder;
-    private RequestDeliveryDto requestDeliveryDto;
-    private RequestPaymentDto requestPaymentDto;
     private RequestUsersDto requestUsersDto;
 }

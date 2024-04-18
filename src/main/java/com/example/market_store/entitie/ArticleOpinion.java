@@ -19,6 +19,10 @@ public class ArticleOpinion {
     private String opinionCode;
     @Column(name = "opinion")
     private String opinion;
+    @Transient
+    private Long userId;
+    @Transient
+    private Long productId;
     @ManyToOne
     private Users user;
     @ManyToOne

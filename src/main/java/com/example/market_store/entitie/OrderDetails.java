@@ -15,13 +15,12 @@ public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "price")
-    private double price;
+    @Column(name = "unitPrice")
+    private double unitPrice;
     @Column(name = "quantity")
     private int quantity;
+    @Transient
+    private Long productVariantId;
     @ManyToOne
     private ProductVariant productVariant;
-    @ManyToOne
-    private Order order;
-
 }

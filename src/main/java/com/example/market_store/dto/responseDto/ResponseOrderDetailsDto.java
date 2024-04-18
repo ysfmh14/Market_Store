@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class ResponseOrderDetailsDto {
     private double price;
     private int quantity;
-    private RequestProductVariantDto requestProductVariantDto ;
-    private RequestOrderDto requestOrderDto;
+    private double unitPrice;
+    private RequestProductVariantDto productVariant ;
 }

@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class ResponseArticleOpinionDto {
     private String opinionCode;
     private String opinion;
-    private RequestUsersDto requestUsersDto;
-    private RequestProductDto requestProductDto;
+    private RequestUsersDto user;
+    private RequestProductDto product;
 }

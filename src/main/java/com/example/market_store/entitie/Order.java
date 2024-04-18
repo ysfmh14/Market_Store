@@ -23,12 +23,13 @@ public class Order {
     private String orderCode;
     @Column(name = "status")
     private String status;
+    @Column(name = "totalPrice")
+    private double totalPrice;
     @Column(name = "dateTimeOrder")
     private LocalDateTime dateTimeOrder;
+
     @OneToOne
     private Delivery delivery;
-    @OneToOne
-    private Payment payment;
     @ManyToOne
     private Users user;
 

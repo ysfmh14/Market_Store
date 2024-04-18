@@ -11,4 +11,6 @@ public class ArticleOpinionCriteria {
     private Long id;
     private String opinionCode;
     private String opinion;
+    private Long userId;
+    private Long productId;
 }
