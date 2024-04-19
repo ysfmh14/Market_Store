@@ -14,4 +14,5 @@ public class OrderCriteria {
     private String orderCode;
     private String status;
     private LocalDateTime dateTimeOrder;
+    private Long userId;
 }

@@ -1,5 +1,6 @@
 package com.example.market_store.entitie;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.apache.catalina.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,5 +34,7 @@ public class Order {
     private Delivery delivery;
     @ManyToOne
     private Users user;
-
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<OrderDetails> orderDetailsList;
 }

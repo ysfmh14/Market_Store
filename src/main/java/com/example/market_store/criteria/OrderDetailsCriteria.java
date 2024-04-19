@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderDetailsCriteria {
     private Long id;
-    private double price;
+    private String orderDetailsCode;
+    private double unitPrice;
     private int quantity;
+    private Long productVariantId;
+    private Long orderId;
 }

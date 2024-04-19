@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RequestOrderDetailsDto {
     private Long id;
+    private String orderDetailsCode;
     private double unitPrice;
     private int quantity;
     private Long productVariantId;
+    private Long orderId;
 }

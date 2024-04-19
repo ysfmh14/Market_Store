@@ -19,5 +19,5 @@ public class RequestOrderDto {
     private String status;
     private double totalPrice;
     private LocalDateTime dateTimeOrder;
-    private RequestUsersDto requestUsersDto;
+    private Long userId;
 }
