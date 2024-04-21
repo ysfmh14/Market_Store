@@ -22,7 +22,7 @@ public class OrderDetailsController {
                                                      @RequestParam(defaultValue = "10" , name = "size") int size,
                                                      @RequestParam( name = "id", required = false) Long id ,
                                                      @RequestParam(name = "orderId", required = false) Long orderId ,
-                                                     @RequestParam(name = "productVariantId", required = false) Long productVariantId ,){
+                                                     @RequestParam(name = "productVariantId", required = false) Long productVariantId ){
 
         OrderDetailsCriteria orderDetailsCriteria = new OrderDetailsCriteria();
         orderDetailsCriteria.setId(id);
