@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResponseOrderDetailsDto {
     private String orderDetailsCode;
-    private double price;
-    private int quantity;
     private double unitPrice;
+    private int quantity;
     private RequestProductVariantDto productVariant ;
 }

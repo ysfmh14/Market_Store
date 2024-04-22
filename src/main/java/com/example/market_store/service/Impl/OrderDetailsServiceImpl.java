@@ -63,7 +63,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         orderDetailsToSave.setOrder(order.get());
         Optional<OrderDetails> existingOrderDetails = orderDetailsRepo.findByOrderDetailsCode(orderDetailsToSave.getOrderDetailsCode());
         if (existingOrderDetails.isPresent()) {
-            throw new EntityAlreadyExisteException("Order details already exists with id: " + requestOrderDetailsDto.getId());
+            throw new EntityAlreadyExisteException("Order details already exists with id: " + requestOrderDetailsDto.getOrderDetailsCode());
         }
         OrderDetails savedOrderDetails = orderDetailsRepo.save(orderDetailsToSave);
         return orderDetailsMapper.modelToDto(savedOrderDetails);

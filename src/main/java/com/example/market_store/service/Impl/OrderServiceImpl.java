@@ -1,17 +1,17 @@
 package com.example.market_store.service.Impl;
 
 import com.example.market_store.criteria.OrderCriteria;
+import com.example.market_store.dto.requestDto.RequestOrderDetailsDto;
 import com.example.market_store.dto.requestDto.RequestOrderDto;
+import com.example.market_store.dto.responseDto.ResponseOrderDetailsDto;
 import com.example.market_store.dto.responseDto.ResponseOrderDto;
-import com.example.market_store.entitie.Category;
-import com.example.market_store.entitie.Order;
-import com.example.market_store.entitie.SubCategory;
-import com.example.market_store.entitie.Users;
+import com.example.market_store.entitie.*;
 import com.example.market_store.exception.EntityAlreadyExisteException;
 import com.example.market_store.exception.EntityNotFoundException;
 import com.example.market_store.mapper.OrderMapper;
 import com.example.market_store.repositorie.OrderRepo;
 import com.example.market_store.repositorie.UsersRepo;
+import com.example.market_store.service.OrderDetailsService;
 import com.example.market_store.service.OrderService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
@@ -31,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepo orderRepo;
     private UsersRepo userRepo;
     private OrderMapper orderMapper;
+    private OrderDetailsService orderDetailsService;
     @Override
     public Page<ResponseOrderDto> findOrderByCriteria(OrderCriteria orderCriteria, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
@@ -61,12 +62,34 @@ public class OrderServiceImpl implements OrderService {
         orderToSave.setOrderCode(generatedCodeOrder);
         Optional<Users> user= userRepo.findById(requestOrderDto.getUserId());
         orderToSave.setUser(user.get());
+
         Optional<Order> existingOrder = orderRepo.findByOrderCode(orderToSave.getOrderCode());
         if (existingOrder.isPresent()) {
             throw new EntityAlreadyExisteException("Order already exists with id: " + requestOrderDto.getId());
         }
-        Order savedOrder = orderRepo.save(orderToSave);
-        return orderMapper.modelToDto(savedOrder);
+        List<ResponseOrderDetailsDto> responseOrderDetailsDtos = new ArrayList<>();
+        double totalPrice = 0;
+        for (RequestOrderDetailsDto orderDetails : requestOrderDto.getOrderDetailsList()) {
+            totalPrice = totalPrice + (orderDetails.getUnitPrice()*orderDetails.getQuantity());
+        }
+        System.out.println(totalPrice);
+        System.out.println(orderToSave.getTotalPrice());
+        if (totalPrice == orderToSave.getTotalPrice()){
+
+            Order savedOrder = orderRepo.save(orderToSave);
+            for (RequestOrderDetailsDto orderDetails : requestOrderDto.getOrderDetailsList()) {
+                orderDetails.setOrderId(savedOrder.getId());
+                ResponseOrderDetailsDto orderDetails1 = orderDetailsService.addOrderDetails(orderDetails);
+                responseOrderDetailsDtos.add(orderDetails1);
+            }
+            ResponseOrderDto responseOrderDto = orderMapper.modelToDto(savedOrder);
+            responseOrderDto.setOrderDetails(responseOrderDetailsDtos);
+            return responseOrderDto ;
+        }else {
+            throw new EntityAlreadyExisteException("Total price error");
+        }
+
+
     }
 
     @Override
@@ -75,11 +98,28 @@ public class OrderServiceImpl implements OrderService {
         if (existingOrder.isEmpty()){
             throw new EntityNotFoundException("Order Not Found   ");
         }
+        List<ResponseOrderDetailsDto> responseOrderDetailsDtos = new ArrayList<>();
+        double totalPrice = 0;
+        for (RequestOrderDetailsDto orderDetails : requestOrderDto.getOrderDetailsList()) {
+            totalPrice = totalPrice + (orderDetails.getUnitPrice()*orderDetails.getQuantity());
+        }
         Order orderToUpdate = orderMapper.dtoToModel(requestOrderDto);
         orderToUpdate.setOrderCode(requestOrderDto.getOrderCode());
         orderToUpdate.setUser(userRepo.findById(requestOrderDto.getUserId()).get());
-        Order updatedOrder= orderRepo.save(orderToUpdate);
-        return orderMapper.modelToDto(updatedOrder);
+        if (totalPrice == orderToUpdate.getTotalPrice()){
+            Order updatedOrder= orderRepo.save(orderToUpdate);
+            for (RequestOrderDetailsDto orderDetails : requestOrderDto.getOrderDetailsList()) {
+                orderDetails.setOrderId(updatedOrder.getId());
+                ResponseOrderDetailsDto orderDetails1 = orderDetailsService.addOrderDetails(orderDetails);
+                responseOrderDetailsDtos.add(orderDetails1);
+            }
+            ResponseOrderDto responseOrderDto = orderMapper.modelToDto(updatedOrder);
+            responseOrderDto.setOrderDetails(responseOrderDetailsDtos);
+            return responseOrderDto ;
+        }else {
+            throw new EntityAlreadyExisteException("Total price error");
+        }
+
     }
 
     @Override
