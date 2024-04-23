@@ -11,11 +11,11 @@ import com.example.market_store.exception.EntityNotFoundException;
 import com.example.market_store.mapper.OrderMapper;
 import com.example.market_store.repositorie.OrderRepo;
 import com.example.market_store.repositorie.UsersRepo;
+import com.example.market_store.service.MailSenderService;
 import com.example.market_store.service.OrderDetailsService;
 import com.example.market_store.service.OrderService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private UsersRepo userRepo;
     private OrderMapper orderMapper;
     private OrderDetailsService orderDetailsService;
+    private MailSenderService mailSenderService;
     @Override
     public Page<ResponseOrderDto> findOrderByCriteria(OrderCriteria orderCriteria, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
@@ -61,8 +62,9 @@ public class OrderServiceImpl implements OrderService {
         Order orderToSave = orderMapper.dtoToModel(requestOrderDto);
         orderToSave.setOrderCode(generatedCodeOrder);
         Optional<Users> user= userRepo.findById(requestOrderDto.getUserId());
-        orderToSave.setUser(user.get());
-
+        if (user.isPresent()) {
+            orderToSave.setUser(user.get());
+        }
         Optional<Order> existingOrder = orderRepo.findByOrderCode(orderToSave.getOrderCode());
         if (existingOrder.isPresent()) {
             throw new EntityAlreadyExisteException("Order already exists with id: " + requestOrderDto.getId());
@@ -72,8 +74,6 @@ public class OrderServiceImpl implements OrderService {
         for (RequestOrderDetailsDto orderDetails : requestOrderDto.getOrderDetailsList()) {
             totalPrice = totalPrice + (orderDetails.getUnitPrice()*orderDetails.getQuantity());
         }
-        System.out.println(totalPrice);
-        System.out.println(orderToSave.getTotalPrice());
         if (totalPrice == orderToSave.getTotalPrice()){
 
             Order savedOrder = orderRepo.save(orderToSave);
@@ -84,6 +84,7 @@ public class OrderServiceImpl implements OrderService {
             }
             ResponseOrderDto responseOrderDto = orderMapper.modelToDto(savedOrder);
             responseOrderDto.setOrderDetails(responseOrderDetailsDtos);
+            mailSenderService.sendNewMail("ysfmh2002@gmail.com","test","test test");
             return responseOrderDto ;
         }else {
             throw new EntityAlreadyExisteException("Total price error");
