@@ -84,7 +84,10 @@ public class OrderServiceImpl implements OrderService {
             }
             ResponseOrderDto responseOrderDto = orderMapper.modelToDto(savedOrder);
             responseOrderDto.setOrderDetails(responseOrderDetailsDtos);
-            mailSenderService.sendNewMail("ysfmh2002@gmail.com","test","test test");
+            if (savedOrder.getStatus().equals("confirmed")){
+                mailSenderService.sendNewMail(user.get().getEmail(),"order confirmation","Hello "+user.get().getFirstName()+";\nYour order is confirmed with a total price "+savedOrder.getTotalPrice());
+            }
+
             return responseOrderDto ;
         }else {
             throw new EntityAlreadyExisteException("Total price error");

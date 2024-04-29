@@ -18,6 +18,10 @@ spring:
           auth: true
           starttls:
             enable: true
+paypal:
+  client-id: AXDCyIP6NJpblTUM9TgyM4mzc01oftm-eWY-3tHZ6owhwVPJuCi3PTV8gFdlsPacyEAgF1r8cAe0gKMl
+  client-secret: EEA5s39CmHl6iZUu9Ufo1psUrsm_2ClzFot0ZFDWEtioKIUJx3N8OQcfwRe1tOZD0nmJhytrcY_q8w4j
+  mode: sandbox
 server:
   servlet:
     context-path: /api
