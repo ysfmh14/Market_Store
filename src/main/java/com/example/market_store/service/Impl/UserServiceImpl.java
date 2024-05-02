@@ -8,23 +8,25 @@ import com.example.market_store.exception.EntityAlreadyExisteException;
 import com.example.market_store.exception.EntityNotFoundException;
 import com.example.market_store.mapper.UsersMapper;
 import com.example.market_store.repositorie.UsersRepo;
+import com.example.market_store.service.KeycloakService;
 import com.example.market_store.service.UserService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
+import org.keycloak.admin.client.Keycloak;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private UsersRepo usersRepo;
     private UsersMapper usersMapper;
+    private KeycloakService keycloakService;
+
+
     @Override
     public Page<ResponseUsersDto> getAllUsers(int page , int size) {
         PageRequest pageable = PageRequest.of(page, size);
@@ -74,6 +76,8 @@ public class UserServiceImpl implements UserService {
         if (existingUser.isPresent()) {
             throw new EntityAlreadyExisteException("User already exists with id: " + requestUserDto.getUserCode());
         }
+
+        keycloakService.createUser(requestUserDto);
         Users savedUser = usersRepo.save(userToSave);
         return usersMapper.modelToDto(savedUser);
     }
@@ -98,5 +102,6 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("User Not Found ID :  "+id);
         }
         usersRepo.deleteById(id);
+        keycloakService.deleteUser(user.get().getFirstName());
     }
 }

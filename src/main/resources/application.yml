@@ -18,6 +18,13 @@ spring:
           auth: true
           starttls:
             enable: true
+
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/master
+          jwk-set-uri: ${spring.security.oauth2.resource-server.jwt.issuer-uri}/protocol/openid-connect/certs
 paypal:
   client-id: AXDCyIP6NJpblTUM9TgyM4mzc01oftm-eWY-3tHZ6owhwVPJuCi3PTV8gFdlsPacyEAgF1r8cAe0gKMl
   client-secret: EEA5s39CmHl6iZUu9Ufo1psUrsm_2ClzFot0ZFDWEtioKIUJx3N8OQcfwRe1tOZD0nmJhytrcY_q8w4j
@@ -25,4 +32,10 @@ paypal:
 server:
   servlet:
     context-path: /api
-  port: 8080
+  port: 8082
+keycloak:
+  auth-server-url: http://localhost:8080
+  realm: master
+  resource: admin-cli
+  credentials:
+      secret: qBNALSEr8e9LSquhEyJApMPQk9iPSIPS
