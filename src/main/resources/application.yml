@@ -39,3 +39,8 @@ keycloak:
   resource: admin-cli
   credentials:
       secret: qBNALSEr8e9LSquhEyJApMPQk9iPSIPS
+jwt:
+  auth:
+    converter:
+      resource-id: admin-cli
+      principle-attribute: preferred_username
