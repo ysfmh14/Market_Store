@@ -21,5 +21,6 @@ public class RequestSellerDto {
     private String country;
     private String address;
     private String rib;
+    private String password;
     private boolean isActive;
 }

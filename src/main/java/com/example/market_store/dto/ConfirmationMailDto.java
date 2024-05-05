@@ -5,12 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
 @Builder
-public class ResetPasswordDto {
-    private String userName;
-    private  String newPassword;
-    private  String oldPassword;
+public class ConfirmationMailDto {
+    private String email;
 }

@@ -1,6 +1,7 @@
 package com.example.market_store.service.Impl;
 
 import com.example.market_store.criteria.UserCriteria;
+import com.example.market_store.dto.AssignRoleToUserDto;
 import com.example.market_store.dto.requestDto.RequestUsersDto;
 import com.example.market_store.dto.responseDto.ResponseUsersDto;
 import com.example.market_store.entitie.Users;
@@ -18,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static com.example.market_store.dto.AssignRoleToUserDto.*;
 
 @Service
 @AllArgsConstructor

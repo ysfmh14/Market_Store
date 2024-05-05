@@ -19,6 +19,7 @@ spring:
           starttls:
             enable: true
 
+
   security:
     oauth2:
       resource-server:
@@ -32,7 +33,7 @@ paypal:
 server:
   servlet:
     context-path: /api
-  port: 8082
+  port: 8083
 keycloak:
   auth-server-url: http://localhost:8080
   realm: master
@@ -44,3 +45,5 @@ jwt:
     converter:
       resource-id: admin-cli
       principle-attribute: preferred_username
+
+

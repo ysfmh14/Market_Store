@@ -20,4 +20,5 @@ public class RequestDeliverymanDto {
     private String country;
     private String rib;
     private boolean isActive;
+    private String password;
 }

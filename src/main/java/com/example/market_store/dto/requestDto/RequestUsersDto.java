@@ -17,4 +17,5 @@ public class RequestUsersDto {
     private String city;
     private String country;
     private String address;
+    private String password;
 }

@@ -33,6 +33,8 @@ public class Users {
     private String country;
     @Column(name = "address")
     private String address;
+    @Transient
+    private String password;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Order> orders;
 }

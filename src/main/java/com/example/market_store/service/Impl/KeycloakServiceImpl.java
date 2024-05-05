@@ -1,30 +1,35 @@
 package com.example.market_store.service.Impl;
 
 import com.example.market_store.dto.AssignRoleToUserDto;
+import com.example.market_store.dto.ConfirmationMailDto;
 import com.example.market_store.dto.LogoutUserDto;
 import com.example.market_store.dto.ResetPasswordDto;
-import com.example.market_store.dto.requestDto.RequestUsersDto;
+import com.example.market_store.dto.requestDto.*;
+import com.example.market_store.dto.responseDto.ResponseValidationCodeDto;
 import com.example.market_store.service.KeycloakService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.market_store.service.MailSenderService;
 import lombok.AllArgsConstructor;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @AllArgsConstructor
 public class KeycloakServiceImpl implements KeycloakService {
     private Keycloak keycloak;
+    private MailSenderService mailSenderService;
+    private CacheManager cacheManager;
     @Override
     public void createUser(RequestUsersDto requestUsersDto) {
         UserRepresentation user = new UserRepresentation();
@@ -37,10 +42,61 @@ public class KeycloakServiceImpl implements KeycloakService {
 
         CredentialRepresentation credential = new CredentialRepresentation();
         credential.setType(CredentialRepresentation.PASSWORD);
-        credential.setValue("12345");
+        credential.setUserLabel("My password");
+        credential.setTemporary(false);
+        credential.setValue(requestUsersDto.getPassword());
         user.setCredentials(Arrays.asList(credential));
         keycloak.realm("master").users().create(user);
+        assignRoleToUser(AssignRoleToUserDto.builder()
+                .userName(requestUsersDto.getFirstName())
+                .roleName("user")
+                .build());
     }
+    @Override
+    public void createSeller(RequestSellerDto requestSellerDto) {
+        UserRepresentation user = new UserRepresentation();
+        user.setEnabled(true);
+        user.setUsername(requestSellerDto.getFirstName());
+        user.setEmail(requestSellerDto.getEmail());
+        user.setFirstName(requestSellerDto.getFirstName());
+        user.setLastName(requestSellerDto.getLastName());
+        user.setEmailVerified(true);
+
+        CredentialRepresentation credential = new CredentialRepresentation();
+        credential.setType(CredentialRepresentation.PASSWORD);
+        credential.setUserLabel("My password");
+        credential.setTemporary(false);
+        credential.setValue(requestSellerDto.getPassword());
+        user.setCredentials(Arrays.asList(credential));
+        keycloak.realm("master").users().create(user);
+        assignRoleToUser(AssignRoleToUserDto.builder()
+                .userName(requestSellerDto.getFirstName())
+                .roleName("seller")
+                .build());
+    }
+    @Override
+    public void createDeliveryMan(RequestDeliverymanDto requestDeliverymanDto) {
+        UserRepresentation user = new UserRepresentation();
+        user.setEnabled(true);
+        user.setUsername(requestDeliverymanDto.getFirstName());
+        user.setEmail(requestDeliverymanDto.getEmail());
+        user.setFirstName(requestDeliverymanDto.getFirstName());
+        user.setLastName(requestDeliverymanDto.getLastName());
+        user.setEmailVerified(true);
+
+        CredentialRepresentation credential = new CredentialRepresentation();
+        credential.setType(CredentialRepresentation.PASSWORD);
+        credential.setUserLabel("My password");
+        credential.setTemporary(false);
+        credential.setValue(requestDeliverymanDto.getPassword());
+        user.setCredentials(Arrays.asList(credential));
+        keycloak.realm("master").users().create(user);
+        assignRoleToUser(AssignRoleToUserDto.builder()
+                .userName(requestDeliverymanDto.getFirstName())
+                .roleName("deliveryman")
+                .build());
+    }
+
 
     @Override
     public void deleteUser(String userName) {
@@ -61,11 +117,11 @@ public class KeycloakServiceImpl implements KeycloakService {
             String userId = user.getId();
 
             List<RoleRepresentation> availableRoles = keycloak.realm("master").roles().list();
-
+            System.out.println(assignRoleToUserDto.getRoleName());
             RoleRepresentation role = availableRoles.stream()
                     .filter(r -> r.getName().equals(assignRoleToUserDto.getRoleName()))
                     .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Role not found: " + assignRoleToUserDto.getUserName()));
+                    .orElseThrow(() -> new RuntimeException("Role not found: " + assignRoleToUserDto.getRoleName()));
             UserResource userResource = usersResource.get(userId);
             userResource.roles().realmLevel().add(List.of(role));
         } else {
@@ -111,5 +167,43 @@ public class KeycloakServiceImpl implements KeycloakService {
         }
 
     }
+
+    @Override
+    @Cacheable(value = "verificationCodes", key = "#email")
+    public String generateConfirmationMail(String email) {
+        String code = generateRandomCode();
+        mailSenderService.sendNewMail(email,"Reset password code","Hello ;\nYour confirmation code\n "+code);
+        Cache cache = cacheManager.getCache("verificationCodes");
+        cache.put(email, code);
+
+        return code;
+    }
+
+    @Override
+    public ResponseValidationCodeDto codeValidation(RequestValidationCodeDto requestValidationCodeDto) {
+        Cache cache = cacheManager.getCache("myCache");
+        String key = requestValidationCodeDto.getEmail();
+        Cache.ValueWrapper valueWrapper = cache.get(key);
+        ResponseValidationCodeDto responseValidationCodeDto = new ResponseValidationCodeDto();
+        if (valueWrapper != null) {
+            responseValidationCodeDto.setValid(true);
+
+            System.out.println((String) valueWrapper.get());
+            return responseValidationCodeDto;
+//            return (String) valueWrapper.get();
+        } else {
+            return null; // Valeur non trouvée dans le cache
+        }
+    }
+
+
+    public String generateRandomCode() {
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            code.append(ThreadLocalRandom.current().nextInt(0, 10));
+        }
+        return code.toString();
+    }
+
 
 }

@@ -35,6 +35,8 @@ public class Deliveryman {
     private String rib;
     @Column(name = "isActive")
     private boolean isActive;
+    @Transient
+    private String password;
     @OneToMany(mappedBy = "deliveryman", fetch = FetchType.LAZY)
     private List<Delivery> deliveries;
 }

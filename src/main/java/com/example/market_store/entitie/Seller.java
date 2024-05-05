@@ -38,6 +38,8 @@ public class Seller {
     private String rib;
     @Column(name = "isActive")
     private boolean isActive;
+    @Transient
+    private String password;
     @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
     private List<Product> products;
 
