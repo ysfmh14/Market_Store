@@ -10,6 +10,7 @@ import com.example.market_store.service.OrderDetailsService;
 import com.example.market_store.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderDetailsController {
     private OrderDetailsService orderDetailsService;
     @GetMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     Page<ResponseOrderDetailsDto> getOrderDetailsByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                      @RequestParam(defaultValue = "10" , name = "size") int size,
                                                      @RequestParam( name = "id", required = false) Long id ,
@@ -31,10 +33,12 @@ public class OrderDetailsController {
         return orderDetailsService.findOrderDetailsByCriteria(orderDetailsCriteria,page,size);
     }
     @PostMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     public ResponseOrderDetailsDto save(@RequestBody RequestOrderDetailsDto requestOrderDetailsDto){
         return orderDetailsService.addOrderDetails(requestOrderDetailsDto);
     }
     @PutMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     public ResponseOrderDetailsDto update(@RequestBody RequestOrderDetailsDto requestOrderDetailsDto){
         return orderDetailsService.UpdateOrderDetails(requestOrderDetailsDto);
     }

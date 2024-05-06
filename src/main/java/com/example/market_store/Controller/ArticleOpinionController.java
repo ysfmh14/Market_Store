@@ -10,6 +10,7 @@ import com.example.market_store.service.ArticleOpinionService;
 import com.example.market_store.service.SubCategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,14 +31,17 @@ public class ArticleOpinionController {
         return articleOpinionService.findArticleOpinionByCriteria(articleOpinionCriteria,page,size);
     }
     @PostMapping
+    @PreAuthorize("hasRole('client_user')")
     public ResponseArticleOpinionDto save(@RequestBody RequestArticleOpinionDto requestArticleOpinionDto){
         return articleOpinionService.addArticleOpinion(requestArticleOpinionDto);
     }
     @PutMapping
+    @PreAuthorize("hasRole('client_user')")
     public ResponseArticleOpinionDto update(@RequestBody RequestArticleOpinionDto requestArticleOpinionDto){
         return articleOpinionService.UpdateArticleOpinion(requestArticleOpinionDto);
     }
     @DeleteMapping
+    @PreAuthorize("hasRole('client_user')")
     public void delete(@RequestParam(name ="id") Long id){
         articleOpinionService.deleteArticleOpinion(id);
     }

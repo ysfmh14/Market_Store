@@ -4,7 +4,10 @@ import com.example.market_store.dto.AssignRoleToUserDto;
 import com.example.market_store.dto.ConfirmationMailDto;
 import com.example.market_store.dto.LogoutUserDto;
 import com.example.market_store.dto.ResetPasswordDto;
-import com.example.market_store.dto.requestDto.*;
+import com.example.market_store.dto.requestDto.RequestDeliverymanDto;
+import com.example.market_store.dto.requestDto.RequestSellerDto;
+import com.example.market_store.dto.requestDto.RequestUsersDto;
+import com.example.market_store.dto.requestDto.RequestValidationCodeDto;
 import com.example.market_store.dto.responseDto.ResponseValidationCodeDto;
 import com.example.market_store.service.KeycloakService;
 import com.example.market_store.service.MailSenderService;
@@ -15,21 +18,25 @@ import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @AllArgsConstructor
 public class KeycloakServiceImpl implements KeycloakService {
     private Keycloak keycloak;
     private MailSenderService mailSenderService;
-    private CacheManager cacheManager;
+    private final Map<String, String> codeMap = new HashMap<>();
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+
     @Override
     public void createUser(RequestUsersDto requestUsersDto) {
         UserRepresentation user = new UserRepresentation();
@@ -169,31 +176,26 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    @Cacheable(value = "verificationCodes", key = "#email")
-    public String generateConfirmationMail(String email) {
+    public String generateConfirmationMail(ConfirmationMailDto confirmationMailDto) {
         String code = generateRandomCode();
-        mailSenderService.sendNewMail(email,"Reset password code","Hello ;\nYour confirmation code\n "+code);
-        Cache cache = cacheManager.getCache("verificationCodes");
-        cache.put(email, code);
-
+        mailSenderService.sendNewMail(confirmationMailDto.getEmail(),"Reset password code","Hello ;\nYour confirmation code\n "+code);
+        codeMap.put(confirmationMailDto.getEmail(),code);
+        scheduleCodeRemoval(confirmationMailDto.getEmail());
         return code;
     }
-
+    private void scheduleCodeRemoval(String email) {
+        executorService.schedule(() -> codeMap.remove(email), 1, TimeUnit.MINUTES);
+    }
     @Override
     public ResponseValidationCodeDto codeValidation(RequestValidationCodeDto requestValidationCodeDto) {
-        Cache cache = cacheManager.getCache("myCache");
-        String key = requestValidationCodeDto.getEmail();
-        Cache.ValueWrapper valueWrapper = cache.get(key);
-        ResponseValidationCodeDto responseValidationCodeDto = new ResponseValidationCodeDto();
-        if (valueWrapper != null) {
-            responseValidationCodeDto.setValid(true);
-
-            System.out.println((String) valueWrapper.get());
-            return responseValidationCodeDto;
-//            return (String) valueWrapper.get();
-        } else {
-            return null; // Valeur non trouvée dans le cache
-        }
+          String code = codeMap.get(requestValidationCodeDto.getEmail());
+          ResponseValidationCodeDto responseValidationCodeDto = new ResponseValidationCodeDto();
+          if (code != null && code.equals(requestValidationCodeDto.getCode())){
+              responseValidationCodeDto.setValid(true);
+          }else {
+              responseValidationCodeDto.setValid(false);
+          }
+      return responseValidationCodeDto;
     }
 
 

@@ -8,6 +8,7 @@ import com.example.market_store.exception.EntityAlreadyExisteException;
 import com.example.market_store.exception.EntityNotFoundException;
 import com.example.market_store.mapper.SellerMapper;
 import com.example.market_store.repositorie.SellerRepo;
+import com.example.market_store.service.KeycloakService;
 import com.example.market_store.service.SellerService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class SellerServiceImpl implements SellerService {
     private SellerRepo sellerRepo;
     private SellerMapper sellerMapper;
+    private KeycloakService keycloakService;
     @Override
     public Page<ResponseSellerDto> findSellerByCriteria(SellerCriteria sellerCriteria, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
@@ -56,6 +58,7 @@ public class SellerServiceImpl implements SellerService {
         if (existingSeller.isPresent()) {
             throw new EntityAlreadyExisteException("Seller already exists with id: " + requestSellerDto.getSellerCode());
         }
+        keycloakService.createSeller(requestSellerDto);
         Seller savedSeller = sellerRepo.save(sellerToSave);
         return sellerMapper.modelToDto(savedSeller);
     }

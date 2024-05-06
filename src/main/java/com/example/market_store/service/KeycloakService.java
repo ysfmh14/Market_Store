@@ -18,7 +18,7 @@ public interface KeycloakService {
     public  void  assignRoleToUser(AssignRoleToUserDto assignRoleToUserDto);
     public  void  resetPassword(ResetPasswordDto resetPasswordDto);
     public  void  logoutUser(LogoutUserDto logoutUserDto);
-    public  String generateConfirmationMail(String email );
+    public  String generateConfirmationMail(ConfirmationMailDto confirmationMailDto);
     public ResponseValidationCodeDto codeValidation(RequestValidationCodeDto requestValidationCodeDto );
 
 }

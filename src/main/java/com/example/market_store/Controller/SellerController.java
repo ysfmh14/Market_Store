@@ -6,6 +6,7 @@ import com.example.market_store.dto.responseDto.ResponseSellerDto;
 import com.example.market_store.service.SellerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class SellerController {
     private SellerService sellerService;
     @GetMapping
+    @PreAuthorize("hasRole('client_admin')")
     Page<ResponseSellerDto> getSellerByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                @RequestParam(defaultValue = "10" , name = "size") int size,
                                                @RequestParam( name = "id", required = false) Long id ,
@@ -26,15 +28,21 @@ public class SellerController {
         sellerCriteria.setFirstName(firstName);
         return sellerService.findSellerByCriteria(sellerCriteria,page,size);
     }
+
+
     @PostMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
     public ResponseSellerDto save(@RequestBody RequestSellerDto requestSellerDto){
         return sellerService.addSeller(requestSellerDto);
     }
     @PutMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
     public ResponseSellerDto update(@RequestBody RequestSellerDto requestSellerDto){
         return sellerService.UpdateSeller(requestSellerDto);
     }
+
     @DeleteMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
     public void delete(@RequestParam(name ="id") Long id){
         sellerService.deleteSeller(id);
     }

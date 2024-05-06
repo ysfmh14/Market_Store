@@ -42,7 +42,7 @@ public class KeycloakController {
     }
     @PostMapping("/confirmationMail")
     public void ConfirmationMail(@RequestBody ConfirmationMailDto confirmationMailDto){
-        keycloakService.generateConfirmationMail(confirmationMailDto.getEmail());
+        keycloakService.generateConfirmationMail(confirmationMailDto);
     }
         @PostMapping("/codeValidation")
     public ResponseValidationCodeDto codeValidation(@RequestBody RequestValidationCodeDto requestValidationCodeDto){

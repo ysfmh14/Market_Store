@@ -12,6 +12,7 @@ import com.example.market_store.exception.EntityNotFoundException;
 import com.example.market_store.mapper.DeliverymanMapper;
 import com.example.market_store.repositorie.DeliverymanRepo;
 import com.example.market_store.service.DeliverymanService;
+import com.example.market_store.service.KeycloakService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ import java.util.UUID;
 public class DeliverymanServiceImpl implements DeliverymanService {
     private DeliverymanMapper deliverymanMapper;
     private DeliverymanRepo deliverymanRepo;
+    private KeycloakService keycloakService;
     @Override
     public Page<ResponseDeliverymanDto> findDeliverymanByCriteria(DeliverymanCriteria deliverymanCriteria, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
@@ -58,6 +60,7 @@ public class DeliverymanServiceImpl implements DeliverymanService {
         if (existingDeliveryman.isPresent()) {
             throw new EntityAlreadyExisteException("Deliveryman already exists with id: " + requestDeliverymanDto.getDeliverymanCode());
         }
+        keycloakService.createDeliveryMan(requestDeliverymanDto);
         Deliveryman savedDeliveryman = deliverymanRepo.save(deliverymanToSave);
         return deliverymanMapper.modelToDto(savedDeliveryman);
     }

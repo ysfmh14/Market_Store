@@ -6,6 +6,7 @@ import com.example.market_store.dto.responseDto.ResponseCategoryDto;
 import com.example.market_store.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     private CategoryService categoryService;
     @GetMapping
+    @PreAuthorize("hasRole('client_admin')")
     Page<ResponseCategoryDto> getCategoryByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                   @RequestParam(defaultValue = "10" , name = "size") int size,
                                                   @RequestParam( name = "id", required = false) Long id ,
@@ -27,14 +29,17 @@ public class CategoryController {
         return categoryService.findCategoryByCriteria(categoryCriteria,page,size);
     }
     @PostMapping
+    @PreAuthorize("hasRole('client_admin')")
     public ResponseCategoryDto save(@RequestBody RequestCategoryDto requestCategoryDto){
         return categoryService.addCategory(requestCategoryDto);
     }
     @PutMapping
+    @PreAuthorize("hasRole('client_admin')")
     public ResponseCategoryDto update(@RequestBody RequestCategoryDto requestCategoryDto){
         return categoryService.UpdateCategory(requestCategoryDto);
     }
     @DeleteMapping
+    @PreAuthorize("hasRole('client_admin')")
     public void delete(@RequestParam(name ="id") Long id){
         categoryService.deleteCategory(id);
     }

@@ -6,6 +6,7 @@ import com.example.market_store.service.PaypalService;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +23,12 @@ public class PaypalController {
 
 
     @GetMapping("/access-token")
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     public String getAccessToken() {
         return paypalService.getAccessToken();
     }
     @PostMapping("/create-order")
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_useer')")
     public String createOrder() {
         return paypalService.createOrder();
     }

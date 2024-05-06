@@ -10,6 +10,7 @@ import com.example.market_store.service.OrderService;
 import com.example.market_store.service.SubCategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
     private OrderService orderService;
     @GetMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     Page<ResponseOrderDto> getOrderByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                     @RequestParam(defaultValue = "10" , name = "size") int size,
                                                     @RequestParam( name = "id", required = false) Long id ,
@@ -33,14 +35,17 @@ public class OrderController {
         return orderService.findOrderByCriteria(orderCriteria,page,size);
     }
     @PostMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     public ResponseOrderDto save(@RequestBody RequestOrderDto requestOrderDto){
         return orderService.addOrder(requestOrderDto);
     }
     @PutMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     public ResponseOrderDto update(@RequestBody RequestOrderDto requestOrderDto){
         return orderService.UpdateOrder(requestOrderDto);
     }
     @DeleteMapping
+    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
     public void delete(@RequestParam(name ="id") Long id){
         orderService.deleteOrder(id);
     }
