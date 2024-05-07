@@ -47,3 +47,6 @@ jwt:
       principle-attribute: preferred_username
 
 
+api:
+  stripe:
+    key: sk_test_51PDpAF00oFIeeR1gLGRFzBIK6dmThNsKNANnK249M7yJMWJ2KdXVUNHXxRmbYxWrfqarTIf7ri3g18ulRQ50vKS000qdG8F83I
