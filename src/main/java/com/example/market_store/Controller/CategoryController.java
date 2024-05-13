@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
     private CategoryService categoryService;
     @GetMapping
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('admin')")
     Page<ResponseCategoryDto> getCategoryByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                   @RequestParam(defaultValue = "10" , name = "size") int size,
                                                   @RequestParam( name = "id", required = false) Long id ,
@@ -29,17 +29,17 @@ public class CategoryController {
         return categoryService.findCategoryByCriteria(categoryCriteria,page,size);
     }
     @PostMapping
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseCategoryDto save(@RequestBody RequestCategoryDto requestCategoryDto){
         return categoryService.addCategory(requestCategoryDto);
     }
     @PutMapping
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('admin')")
     public ResponseCategoryDto update(@RequestBody RequestCategoryDto requestCategoryDto){
         return categoryService.UpdateCategory(requestCategoryDto);
     }
     @DeleteMapping
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('admin')")
     public void delete(@RequestParam(name ="id") Long id){
         categoryService.deleteCategory(id);
     }

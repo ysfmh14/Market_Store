@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentCriteria {
+    private Long id;
     private String paymentCode;
     private String paymentMode;
     private String amount;

@@ -22,12 +22,12 @@ public class Payment {
     @Column(name = "paymentMode")
     private String paymentMode;
     @Column(name = "amount")
-    private String amount;
+    private double amount;
     @Column(name = "dateTimePayment")
     private LocalDateTime dateTimePayment;
+    @Transient
+    private Long orderId;
     @OneToOne
     private Order order;
-    @OneToOne
-    private Invoice invoice;
 
 }

@@ -23,12 +23,12 @@ public class PaypalController {
 
 
     @GetMapping("/access-token")
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_user')")
+    @PreAuthorize("hasRole('admin') or hasRole('user')")
     public String getAccessToken() {
         return paypalService.getAccessToken();
     }
     @PostMapping("/create-order")
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_useer')")
+    @PreAuthorize("hasRole('admin') or hasRole('useer')")
     public String createOrder() {
         return paypalService.createOrder();
     }

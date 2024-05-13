@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class SellerController {
     private SellerService sellerService;
     @GetMapping
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasRole('admin')")
     Page<ResponseSellerDto> getSellerByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                @RequestParam(defaultValue = "10" , name = "size") int size,
                                                @RequestParam( name = "id", required = false) Long id ,
@@ -31,18 +31,18 @@ public class SellerController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public ResponseSellerDto save(@RequestBody RequestSellerDto requestSellerDto){
         return sellerService.addSeller(requestSellerDto);
     }
     @PutMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public ResponseSellerDto update(@RequestBody RequestSellerDto requestSellerDto){
         return sellerService.UpdateSeller(requestSellerDto);
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public void delete(@RequestParam(name ="id") Long id){
         sellerService.deleteSeller(id);
     }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductVariantController {
     private ProductVariantService productVariantService;
     @GetMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     Page<ResponseProductVariantDto> getProductVariantByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                          @RequestParam(defaultValue = "10" , name = "size") int size,
                                                          @RequestParam( name = "id", required = false) Long id ,
@@ -33,17 +33,17 @@ public class ProductVariantController {
         return productVariantService.findProductVariantByCriteria(productVariantCriteria,page,size);
     }
     @PostMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public ResponseProductVariantDto save(@RequestBody RequestProductVariantDto requestProductVariantDto){
         return productVariantService.addProductVariant(requestProductVariantDto);
     }
     @PutMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public ResponseProductVariantDto update(@RequestBody RequestProductVariantDto requestProductVariantDto){
         return productVariantService.UpdateProductVariant(requestProductVariantDto);
     }
     @DeleteMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public void delete(@RequestParam(name ="id") Long id){
         productVariantService.deleteProductVariant(id);
     }

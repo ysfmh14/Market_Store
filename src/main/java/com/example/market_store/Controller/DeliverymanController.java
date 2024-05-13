@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class DeliverymanController {
     private DeliverymanService deliverymanService;
     @GetMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_deliverymen')")
+    @PreAuthorize("hasRole('admin') or hasRole('deliverymen')")
     Page<ResponseDeliverymanDto> getSubDeliverymanByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                           @RequestParam(defaultValue = "10" , name = "size") int size,
                                                           @RequestParam( name = "id", required = false) Long id ,
@@ -33,17 +33,17 @@ public class DeliverymanController {
         return deliverymanService.findDeliverymanByCriteria(deliverymanCriteria,page,size);
     }
     @PostMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_deliverymen')")
+    @PreAuthorize("hasRole('admin') or hasRole('deliverymen')")
     public ResponseDeliverymanDto save(@RequestBody RequestDeliverymanDto requestDeliverymanDto){
         return deliverymanService.addDeliveryman(requestDeliverymanDto);
     }
     @PutMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_deliverymen')")
+    @PreAuthorize("hasRole('admin') or hasRole('deliverymen')")
     public ResponseDeliverymanDto update(@RequestBody RequestDeliverymanDto requestDeliverymanDto){
         return deliverymanService.UpdateDeliveryman(requestDeliverymanDto);
     }
     @DeleteMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_deliverymen')")
+    @PreAuthorize("hasRole('admin') or hasRole('deliverymen')")
     public void delete(@RequestParam(name ="id") Long id){
         deliverymanService.deleteDeliveryman(id);
     }

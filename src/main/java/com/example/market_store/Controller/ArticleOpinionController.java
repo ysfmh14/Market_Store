@@ -31,17 +31,17 @@ public class ArticleOpinionController {
         return articleOpinionService.findArticleOpinionByCriteria(articleOpinionCriteria,page,size);
     }
     @PostMapping
-    @PreAuthorize("hasRole('client_user')")
+    @PreAuthorize("hasRole('user')")
     public ResponseArticleOpinionDto save(@RequestBody RequestArticleOpinionDto requestArticleOpinionDto){
         return articleOpinionService.addArticleOpinion(requestArticleOpinionDto);
     }
     @PutMapping
-    @PreAuthorize("hasRole('client_user')")
+    @PreAuthorize("hasRole('user')")
     public ResponseArticleOpinionDto update(@RequestBody RequestArticleOpinionDto requestArticleOpinionDto){
         return articleOpinionService.UpdateArticleOpinion(requestArticleOpinionDto);
     }
     @DeleteMapping
-    @PreAuthorize("hasRole('client_user')")
+    @PreAuthorize("hasRole('user')")
     public void delete(@RequestParam(name ="id") Long id){
         articleOpinionService.deleteArticleOpinion(id);
     }

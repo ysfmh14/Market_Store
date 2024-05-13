@@ -16,8 +16,7 @@ import java.time.LocalDateTime;
 public class ResponsePaymentDto {
     private String paymentCode;
     private String paymentMode;
-    private String amount;
+    private long amount;
     private LocalDateTime dateTimePayment;
-    private RequestOrderDto requestOrderDto;
-    private RequestInvoiceDto requestInvoiceDto;
+    private ResponseOrderDto responseOrderDto;
 }

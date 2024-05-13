@@ -23,6 +23,8 @@ public class Invoice {
     private String amount;
     @Column(name = "dateTimePayment")
     private LocalDateTime dateTimePayment;
+    @Transient
+    private Long paymentId;
     @OneToOne
     private Payment payment;
 }

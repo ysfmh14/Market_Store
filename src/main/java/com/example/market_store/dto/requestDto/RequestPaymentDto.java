@@ -17,8 +17,8 @@ public class RequestPaymentDto {
     private Long id;
     private String paymentCode;
     private String paymentMode;
-    private String amount;
+    private long amount;
     private LocalDateTime dateTimePayment;
-    private RequestOrderDto requestOrderDto;
-    private RequestInvoiceDto requestInvoiceDto;
+    private String cardToken;
+    private Long orderId;
 }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private ProductService productService;
     @GetMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     Page<ResponseProductDto> getProductByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                       @RequestParam(defaultValue = "10" , name = "size") int size,
                                                       @RequestParam( name = "id", required = false) Long id ,
@@ -33,17 +33,17 @@ public class ProductController {
         return productService.findProductByCriteria(productCriteria,page,size);
     }
     @PostMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public ResponseProductDto save(@RequestBody RequestProductDto requestProductDto){
         return productService.addProduct(requestProductDto);
     }
     @PutMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public ResponseProductDto update(@RequestBody RequestProductDto requestProductDto){
         return productService.UpdateProduct(requestProductDto);
     }
     @DeleteMapping
-    @PreAuthorize("hasRole('client_admin') or hasRole('client_seller')")
+    @PreAuthorize("hasRole('admin') or hasRole('seller')")
     public void delete(@RequestParam(name ="id") Long id){
         productService.deleteProduct(id);
     }

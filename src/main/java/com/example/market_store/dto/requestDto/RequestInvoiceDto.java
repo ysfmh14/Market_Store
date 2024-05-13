@@ -16,5 +16,5 @@ public class RequestInvoiceDto {
     private String invoiceCode;
     private String amount;
     private LocalDateTime dateTimePayment;
-    private RequestPaymentDto requestPaymentDto;
+    private Long paymentId;
 }
