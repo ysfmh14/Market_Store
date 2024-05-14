@@ -10,6 +10,7 @@ import com.example.market_store.mapper.CategoryMapper;
 import com.example.market_store.repositorie.CategoryRepo;
 import com.example.market_store.service.CategoryService;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
     private CategoryRepo categoryRepo;
     private CategoryMapper categoryMapper;
@@ -72,12 +74,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(long id) {
-        Optional<Category> category = categoryRepo.findById(id);
+    public void deleteCategory(String categoryCode) {
+        Optional<Category> category = categoryRepo.findByCategoryCode(categoryCode);
         if (category.isEmpty()){
-            throw new EntityNotFoundException("Category Not Found ID :  "+id);
+            throw new EntityNotFoundException("Category Not Found code :  "+categoryCode);
         }
-        categoryRepo.deleteById(id);
+        categoryRepo.deleteByCategoryCode(categoryCode);
 
     }
 }

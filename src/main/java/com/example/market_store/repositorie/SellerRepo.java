@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface SellerRepo extends JpaRepository<Seller,Long>, JpaSpecificationExecutor<Seller> {
     Optional<Seller> findBySellerCode(String sellerCode);
+    void deleteBySellerCode(String sellerCode);
 }

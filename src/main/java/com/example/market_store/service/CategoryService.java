@@ -12,5 +12,5 @@ public interface CategoryService {
     Page<ResponseCategoryDto> findCategoryByCriteria(CategoryCriteria categoryCriteria, int page , int size);
     ResponseCategoryDto addCategory(RequestCategoryDto requestCategoryDto);
     ResponseCategoryDto UpdateCategory(RequestCategoryDto requestCategoryDto);
-    void  deleteCategory(long id);
+    void  deleteCategory(String categoryCode);
 }

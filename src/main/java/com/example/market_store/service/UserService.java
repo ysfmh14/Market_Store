@@ -11,5 +11,5 @@ public interface UserService {
     ResponseUsersDto getUserById(long id) ;
     ResponseUsersDto addUser(RequestUsersDto requestUserDto);
     ResponseUsersDto UpdateUser(RequestUsersDto requestUserDto);
-    void  deleteUser(long id);
+    void  deleteUser(String userCode);
 }

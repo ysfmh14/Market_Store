@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UsersRepo extends JpaRepository<Users,Long>, JpaSpecificationExecutor<Users> {
     Optional<Users> findByUserCode(String userCode);
+    void deleteByUserCode(String userCode);
 
 }

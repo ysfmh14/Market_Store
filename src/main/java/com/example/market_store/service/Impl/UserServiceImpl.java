@@ -12,6 +12,7 @@ import com.example.market_store.repositorie.UsersRepo;
 import com.example.market_store.service.KeycloakService;
 import com.example.market_store.service.UserService;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import static com.example.market_store.dto.AssignRoleToUserDto.*;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     private UsersRepo usersRepo;
     private UsersMapper usersMapper;
@@ -53,6 +55,9 @@ public class UserServiceImpl implements UserService {
             }
             if (userCriteria.getLastName() != null){
                 predicateList.add(criteriaBuilder.equal(root.get("lastName"),userCriteria.getLastName()));
+            }
+            if (userCriteria.getUserCode() != null){
+                predicateList.add(criteriaBuilder.equal(root.get("userCode"),userCriteria.getUserCode()));
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
 
@@ -87,24 +92,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseUsersDto UpdateUser(RequestUsersDto requestUserDto) {
-        System.out.println(requestUserDto.getUserCode());
         Optional<Users> existingUser = usersRepo.findByUserCode(requestUserDto.getUserCode());
         if (existingUser.isEmpty()){
             throw new EntityNotFoundException("User Not Found ");
         }
         Users userToUpdate = usersMapper.dtoToModel(requestUserDto);
+        userToUpdate.setId(existingUser.get().getId());
         userToUpdate.setUserCode(existingUser.get().getUserCode());
+        keycloakService.updateUser(requestUserDto);
         Users updatedUser = usersRepo.save(userToUpdate);
         return usersMapper.modelToDto(updatedUser);
     }
 
     @Override
-    public void deleteUser(long id) {
-        Optional<Users> user = usersRepo.findById(id);
+    public void deleteUser(String userCode) {
+        Optional<Users> user = usersRepo.findByUserCode(userCode);
         if (!user.isPresent()){
-            throw new EntityNotFoundException("User Not Found ID :  "+id);
+            throw new EntityNotFoundException("User Not Found Code:  "+userCode);
         }
-        usersRepo.deleteById(id);
-        keycloakService.deleteUser(user.get().getFirstName());
+        usersRepo.deleteByUserCode(userCode);
+        keycloakService.deleteUser(user.get().getEmail());
     }
 }

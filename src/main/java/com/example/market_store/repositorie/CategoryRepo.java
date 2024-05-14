@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepo extends JpaRepository<Category,Long>, JpaSpecificationExecutor<Category> {
     Optional<Category> findByCategoryCode(String categoryCode);
-
+    void deleteByCategoryCode(String categoryCode);
 }

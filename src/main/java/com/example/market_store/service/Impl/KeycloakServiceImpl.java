@@ -41,7 +41,7 @@ public class KeycloakServiceImpl implements KeycloakService {
     public void createUser(RequestUsersDto requestUsersDto) {
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
-        user.setUsername(requestUsersDto.getFirstName());
+        user.setUsername(requestUsersDto.getEmail());
         user.setEmail(requestUsersDto.getEmail());
         user.setFirstName(requestUsersDto.getFirstName());
         user.setLastName(requestUsersDto.getLastName());
@@ -55,15 +55,36 @@ public class KeycloakServiceImpl implements KeycloakService {
         user.setCredentials(Arrays.asList(credential));
         keycloak.realm("master").users().create(user);
         assignRoleToUser(AssignRoleToUserDto.builder()
-                .userName(requestUsersDto.getFirstName())
+                .userName(requestUsersDto.getEmail())
                 .roleName("user")
                 .build());
+    }
+    @Override
+    public void updateUser(RequestUsersDto requestUsersDto) {
+        System.out.println(requestUsersDto.getFirstName());
+        List<UserRepresentation> users = keycloak.realm("master")
+                .users()
+                .search(requestUsersDto.getEmail());
+        if (!users.isEmpty()) {
+            UserRepresentation user = users.get(0);
+            System.out.println(user);
+            user.setEnabled(true);
+            user.setFirstName(requestUsersDto.getFirstName());
+            user.setLastName(requestUsersDto.getLastName());
+            UserResource userResource = keycloak.realm("master")
+                    .users()
+                    .get(user.getId());
+            userResource.update(user);
+        } else {
+            // Gérer le cas où l'utilisateur n'est pas trouvé
+            System.out.println("Utilisateur non trouvé.");
+        }
     }
     @Override
     public void createSeller(RequestSellerDto requestSellerDto) {
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
-        user.setUsername(requestSellerDto.getFirstName());
+        user.setUsername(requestSellerDto.getEmail());
         user.setEmail(requestSellerDto.getEmail());
         user.setFirstName(requestSellerDto.getFirstName());
         user.setLastName(requestSellerDto.getLastName());
@@ -77,15 +98,36 @@ public class KeycloakServiceImpl implements KeycloakService {
         user.setCredentials(Arrays.asList(credential));
         keycloak.realm("master").users().create(user);
         assignRoleToUser(AssignRoleToUserDto.builder()
-                .userName(requestSellerDto.getFirstName())
+                .userName(requestSellerDto.getEmail())
                 .roleName("seller")
                 .build());
     }
+
+    @Override
+    public void updateSeller(RequestSellerDto requestSellerDto) {
+        List<UserRepresentation> users = keycloak.realm("master")
+                .users()
+                .search(requestSellerDto.getEmail());
+        if (!users.isEmpty()) {
+            UserRepresentation user = users.get(0);
+            user.setEnabled(true);
+            user.setFirstName(requestSellerDto.getFirstName());
+            user.setLastName(requestSellerDto.getLastName());
+            UserResource userResource = keycloak.realm("master")
+                    .users()
+                    .get(user.getId());
+            userResource.update(user);
+        } else {
+            // Gérer le cas où l'utilisateur n'est pas trouvé
+            System.out.println("seller non trouvé.");
+        }
+    }
+
     @Override
     public void createDeliveryMan(RequestDeliverymanDto requestDeliverymanDto) {
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
-        user.setUsername(requestDeliverymanDto.getFirstName());
+        user.setUsername(requestDeliverymanDto.getEmail());
         user.setEmail(requestDeliverymanDto.getEmail());
         user.setFirstName(requestDeliverymanDto.getFirstName());
         user.setLastName(requestDeliverymanDto.getLastName());
@@ -99,7 +141,7 @@ public class KeycloakServiceImpl implements KeycloakService {
         user.setCredentials(Arrays.asList(credential));
         keycloak.realm("master").users().create(user);
         assignRoleToUser(AssignRoleToUserDto.builder()
-                .userName(requestDeliverymanDto.getFirstName())
+                .userName(requestDeliverymanDto.getEmail())
                 .roleName("deliveryman")
                 .build());
     }
@@ -109,8 +151,13 @@ public class KeycloakServiceImpl implements KeycloakService {
     public void deleteUser(String userName) {
 
         List<UserRepresentation> users = keycloak.realm("master").users().search(userName);
+        System.out.println(users.get(0).getId());
+        keycloak.realm("master").users().delete(users.get(0).getId());
+    }
 
-        keycloak.realm("MarktStoreKeyCloak").users().delete(users.get(0).getId());
+    @Override
+    public void deleteSeller(String userName) {
+
     }
 
     @Override

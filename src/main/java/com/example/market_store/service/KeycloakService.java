@@ -12,9 +12,12 @@ import com.example.market_store.dto.responseDto.ResponseValidationCodeDto;
 
 public interface KeycloakService {
     public void createUser(RequestUsersDto requestUsersDto) ;
+    public void updateUser(RequestUsersDto requestUsersDto);
     public void createSeller(RequestSellerDto requestSellerDto) ;
+    public void updateSeller(RequestSellerDto requestSellerDto);
     public void createDeliveryMan(RequestDeliverymanDto requestDeliverymanDto) ;
     public  void  deleteUser(String userName);
+    public  void  deleteSeller(String userName);
     public  void  assignRoleToUser(AssignRoleToUserDto assignRoleToUserDto);
     public  void  resetPassword(ResetPasswordDto resetPasswordDto);
     public  void  logoutUser(LogoutUserDto logoutUserDto);

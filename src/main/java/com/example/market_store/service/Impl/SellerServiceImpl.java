@@ -11,6 +11,7 @@ import com.example.market_store.repositorie.SellerRepo;
 import com.example.market_store.service.KeycloakService;
 import com.example.market_store.service.SellerService;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class SellerServiceImpl implements SellerService {
     private SellerRepo sellerRepo;
     private SellerMapper sellerMapper;
@@ -40,6 +42,9 @@ public class SellerServiceImpl implements SellerService {
             }
             if (sellerCriteria.getLastName() != null){
                 predicateList.add(criteriaBuilder.equal(root.get("lastName"),sellerCriteria.getLastName()));
+            }
+            if (sellerCriteria.getSellerCode() != null){
+                predicateList.add(criteriaBuilder.equal(root.get("sellerCode"),sellerCriteria.getSellerCode()));
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
 
@@ -72,15 +77,18 @@ public class SellerServiceImpl implements SellerService {
         Seller sellerToUpdate = sellerMapper.dtoToModel(requestSellerDto);
         sellerToUpdate.setSellerCode(existingSeller.get().getSellerCode());
         Seller updatedSeller= sellerRepo.save(sellerToUpdate);
+        keycloakService.updateSeller(requestSellerDto);
         return sellerMapper.modelToDto(updatedSeller);
     }
 
     @Override
-    public void deleteSeller(long id) {
-        Optional<Seller> seller = sellerRepo.findById(id);
+    public void deleteSeller(String sellerCode) {
+        Optional<Seller> seller = sellerRepo.findBySellerCode(sellerCode);
         if (seller.isEmpty()){
-            throw new EntityNotFoundException("Seller Not Found ID :  "+id);
+            throw new EntityNotFoundException("Seller Not Found code :  "+sellerCode);
         }
-        sellerRepo.deleteById(id);
+
+        sellerRepo.deleteBySellerCode(sellerCode);
+        keycloakService.deleteUser(seller.get().getEmail());
     }
 }
