@@ -12,5 +12,5 @@ public interface SubCategoryService {
     Page<ResponseSubCategoryDto> findSubCategoryByCriteria(SubCategoryCriteria subCategoryCriteria, int page , int size);
     ResponseSubCategoryDto addSubCategory(RequestSubCategoryDto requestSubCategoryDto);
     ResponseSubCategoryDto UpdateSubCategory(RequestSubCategoryDto requestSubCategoryDto);
-    void  deleteSubCategory(long id);
+    void  deleteSubCategory(String code);
 }

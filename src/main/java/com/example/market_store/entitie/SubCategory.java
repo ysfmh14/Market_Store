@@ -22,7 +22,7 @@ public class SubCategory {
     @Column(name = "description")
     private String description;
     @Transient
-    private Long categoryId;
+    private String categoryCode;
     @ManyToOne
     private Category Category;
 }

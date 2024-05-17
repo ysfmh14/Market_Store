@@ -12,6 +12,7 @@ import com.example.market_store.repositorie.CategoryRepo;
 import com.example.market_store.repositorie.SubCategoryRepo;
 import com.example.market_store.service.SubCategoryService;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class SubCategoryServiceImpl implements SubCategoryService {
     private SubCategoryMapper subCategoryMapper;
     private SubCategoryRepo subCategoryRepo;
@@ -53,7 +55,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
         String generatedCodeSubCategory = "SCAT" + UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         SubCategory subCategoryToSave = subCategoryMapper.dtoToModel(requestSubCategoryDto);
         subCategoryToSave.setSubCategoryCode(generatedCodeSubCategory);
-        Optional<Category> category= categoryRepo.findById(requestSubCategoryDto.getCategoryId());
+        Optional<Category> category= categoryRepo.findByCategoryCode(requestSubCategoryDto.getCategoryCode());
         subCategoryToSave.setCategory(category.get());
         Optional<SubCategory> existingSubCategory = subCategoryRepo.findBySubCategoryCode(subCategoryToSave.getSubCategoryCode());
         if (existingSubCategory.isPresent()) {
@@ -72,20 +74,21 @@ public class SubCategoryServiceImpl implements SubCategoryService {
             throw new EntityNotFoundException("SubCategory Not Found   ");
         }
         SubCategory subCategoryToUpdate = subCategoryMapper.dtoToModel(requestSubCategoryDto);
+        subCategoryToUpdate.setId(existingSubCategory.get().getId());
         subCategoryToUpdate.setSubCategoryCode(requestSubCategoryDto.getSubCategoryCode());
-        subCategoryToUpdate.setCategory(categoryRepo.findById(requestSubCategoryDto.getCategoryId()).get());
+        subCategoryToUpdate.setCategory(categoryRepo.findByCategoryCode(requestSubCategoryDto.getCategoryCode()).get());
         SubCategory updatedSubCategory= subCategoryRepo.save(subCategoryToUpdate);
         return subCategoryMapper.modelToDto(updatedSubCategory);
 
     }
 
     @Override
-    public void deleteSubCategory(long id) {
-        Optional<SubCategory> subcategory = subCategoryRepo.findById(id);
+    public void deleteSubCategory(String code) {
+        Optional<SubCategory> subcategory = subCategoryRepo.findBySubCategoryCode(code);
         if (subcategory.isEmpty()){
-            throw new EntityNotFoundException("SubCategory Not Found ID :  "+id);
+            throw new EntityNotFoundException("SubCategory Not Found code :  "+code);
         }
-        subCategoryRepo.deleteById(id);
+        subCategoryRepo.deleteBySubCategoryCode(code);
 
     }
 }
