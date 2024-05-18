@@ -35,6 +35,5 @@ public class Order {
     @ManyToOne
     private Users user;
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<OrderDetails> orderDetailsList;
 }

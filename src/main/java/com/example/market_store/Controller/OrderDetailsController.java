@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderDetailsController {
     private OrderDetailsService orderDetailsService;
     @GetMapping
-    @PreAuthorize("hasRole('admin') or hasRole('user')")
+//    @PreAuthorize("hasRole('admin') or hasRole('user')")
     Page<ResponseOrderDetailsDto> getOrderDetailsByCriteria(@RequestParam(defaultValue = "0", name ="page") int page,
                                                      @RequestParam(defaultValue = "10" , name = "size") int size,
                                                      @RequestParam( name = "id", required = false) Long id ,
@@ -33,17 +33,17 @@ public class OrderDetailsController {
         return orderDetailsService.findOrderDetailsByCriteria(orderDetailsCriteria,page,size);
     }
     @PostMapping
-    @PreAuthorize("hasRole('admin') or hasRole('user')")
+//    @PreAuthorize("hasRole('admin') or hasRole('user')")
     public ResponseOrderDetailsDto save(@RequestBody RequestOrderDetailsDto requestOrderDetailsDto){
         return orderDetailsService.addOrderDetails(requestOrderDetailsDto);
     }
     @PutMapping
-    @PreAuthorize("hasRole('admin') or hasRole('user')")
+//    @PreAuthorize("hasRole('admin') or hasRole('user')")
     public ResponseOrderDetailsDto update(@RequestBody RequestOrderDetailsDto requestOrderDetailsDto){
         return orderDetailsService.UpdateOrderDetails(requestOrderDetailsDto);
     }
     @DeleteMapping
-    @PreAuthorize("hasRole('admin') or hasRole('user')")
+//    @PreAuthorize("hasRole('admin') or hasRole('user')")
     public void delete(@RequestParam(name ="id") Long id){
         orderDetailsService.deleteOrderDetails(id);
     }

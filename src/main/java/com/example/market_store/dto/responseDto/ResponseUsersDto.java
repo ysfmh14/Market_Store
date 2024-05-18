@@ -1,6 +1,9 @@
 package com.example.market_store.dto.responseDto;
 
+import com.example.market_store.entitie.Order;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,5 +19,6 @@ public class ResponseUsersDto {
     private String city;
     private String country;
     private String address;
+    private List<ResponseOrderDto> responseOrderDtoList;
 
 }

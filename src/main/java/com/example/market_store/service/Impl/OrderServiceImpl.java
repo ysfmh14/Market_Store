@@ -83,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
                 responseOrderDetailsDtos.add(orderDetails1);
             }
             ResponseOrderDto responseOrderDto = orderMapper.modelToDto(savedOrder);
-            responseOrderDto.setOrderDetails(responseOrderDetailsDtos);
+            responseOrderDto.setOrderDetailsList(responseOrderDetailsDtos);
             if (savedOrder.getStatus().equals("confirmed")){
                 mailSenderService.sendNewMail(user.get().getEmail(),"order confirmation","Hello "+user.get().getFirstName()+";\nYour order is confirmed with a total price "+savedOrder.getTotalPrice());
             }
@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
                 responseOrderDetailsDtos.add(orderDetails1);
             }
             ResponseOrderDto responseOrderDto = orderMapper.modelToDto(updatedOrder);
-            responseOrderDto.setOrderDetails(responseOrderDetailsDtos);
+            responseOrderDto.setOrderDetailsList(responseOrderDetailsDtos);
             return responseOrderDto ;
         }else {
             throw new EntityAlreadyExisteException("Total price error");

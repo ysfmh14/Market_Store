@@ -11,7 +11,9 @@ import org.springframework.data.domain.Page;
 @Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
 public interface OrderMapper {
     Order dtoToModel(RequestOrderDto requestOrderDto);
-    @Mapping(source = "orderDetailsList", target = "orderDetails")
+    @Mapping(source = "orderDetailsList", target = "orderDetailsList")
+    @Mapping(source = "user", target = "user")
+    @Mapping(source = "delivery", target = "delivery")
     ResponseOrderDto modelToDto(Order order);
 
     default Page<ResponseOrderDto> modelToDtos(Page<Order> orderPage) {
