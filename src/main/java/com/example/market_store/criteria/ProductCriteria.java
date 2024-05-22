@@ -18,4 +18,5 @@ public class ProductCriteria {
     private int quantity;
     private double unitPrice;
     private boolean available;
+    private String sellerCode;
 }

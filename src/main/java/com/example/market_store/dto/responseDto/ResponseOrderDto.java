@@ -1,6 +1,7 @@
 package com.example.market_store.dto.responseDto;
 
 import com.example.market_store.dto.requestDto.RequestDeliveryDto;
+import com.example.market_store.dto.requestDto.RequestPaymentDto;
 import com.example.market_store.dto.requestDto.RequestUsersDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,5 +22,6 @@ public class ResponseOrderDto {
     private double totalPrice;
     private RequestDeliveryDto delivery;
     private RequestUsersDto user;
+    private RequestPaymentDto payment;
     private List<ResponseOrderDetailsDto> orderDetailsList ;
 }

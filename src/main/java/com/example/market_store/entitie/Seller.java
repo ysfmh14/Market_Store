@@ -42,6 +42,9 @@ public class Seller {
     private String password;
     @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
     private List<Product> products;
+//    @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private List<Product> productList;
 
 
 }

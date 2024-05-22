@@ -14,6 +14,7 @@ import com.example.market_store.repositorie.ProductRepo;
 import com.example.market_store.repositorie.SellerRepo;
 import com.example.market_store.repositorie.SubCategoryRepo;
 import com.example.market_store.service.ProductService;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,10 @@ public class ProductServiceImpl implements ProductService {
             }
             if (productCriteria.getProductCode()!= null){
                 predicateList.add(criteriaBuilder.equal(root.get("categoryCode"),productCriteria.getProductCode()));
+            }
+            if (productCriteria.getSellerCode() != null){
+                Join<Product, Seller> sellerJoin = root.join("seller");
+                predicateList.add(criteriaBuilder.equal(sellerJoin.get("sellerCode"), productCriteria.getSellerCode()));
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
 
@@ -82,6 +87,7 @@ public class ProductServiceImpl implements ProductService {
         Product updatedProduct= productRepo.save(productToUpdate);
         return productMapper.modelToDto(updatedProduct);
     }
+
 
     @Override
     public void deleteProduct(long id) {

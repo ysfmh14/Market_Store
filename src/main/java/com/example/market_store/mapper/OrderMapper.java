@@ -14,6 +14,7 @@ public interface OrderMapper {
     @Mapping(source = "orderDetailsList", target = "orderDetailsList")
     @Mapping(source = "user", target = "user")
     @Mapping(source = "delivery", target = "delivery")
+    @Mapping(source = "payment", target = "payment")
     ResponseOrderDto modelToDto(Order order);
 
     default Page<ResponseOrderDto> modelToDtos(Page<Order> orderPage) {

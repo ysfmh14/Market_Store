@@ -15,5 +15,5 @@ public class ResponseOrderDetailsDto {
     private String orderDetailsCode;
     private double unitPrice;
     private int quantity;
-    private RequestProductVariantDto productVariant ;
+    private ResponseProductVariantDto productVariant ;
 }

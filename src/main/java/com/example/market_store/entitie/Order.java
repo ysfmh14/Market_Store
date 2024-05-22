@@ -32,6 +32,8 @@ public class Order {
 
     @OneToOne
     private Delivery delivery;
+    @OneToOne
+    private Payment payment;
     @ManyToOne
     private Users user;
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)

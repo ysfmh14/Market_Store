@@ -103,7 +103,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
     public void generatePdf(HttpServletResponse response , String paymentCode)throws DocumentException, IOException {
         Optional<Payment> payment = paymentRepo.findByPaymentCode(paymentCode);
+//        System.out.println(payment.get());
         Users users = payment.get().getOrder().getUser();
+
         Order order = payment.get().getOrder();
         Payment payment1 = payment.get();
         Document document = new Document(PageSize.A4);

@@ -25,6 +25,7 @@ import java.util.Date;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/payments")
+@CrossOrigin("*")
 public class PaymentController {
     private PaymentService paymentService;
     @GetMapping
