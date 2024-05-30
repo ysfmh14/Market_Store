@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -31,17 +32,19 @@ public class Product {
     private int quantity;
     @Column(name = "unitPrice")
     private double unitPrice;
+    @Column(name = "createDate")
+    private LocalDate createDate;
     @Column(name = "available")
     private boolean available;
     @Transient
-    private Long sellerId;
+    private String sellerCode;
     @Transient
-    private Long subCategoryId;
+    private String subCategoryCode;
     @ManyToOne
     private Seller seller;
     @ManyToOne
     private SubCategory subCategory;
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<ProductVariant> productVariants;
 

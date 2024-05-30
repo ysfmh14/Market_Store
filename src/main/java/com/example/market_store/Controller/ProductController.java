@@ -47,7 +47,7 @@ public class ProductController {
     }
     @DeleteMapping
 //    @PreAuthorize("hasRole('admin') or hasRole('seller')")
-    public void delete(@RequestParam(name ="id") Long id){
-        productService.deleteProduct(id);
+    public void delete(@RequestParam(name ="code") String code){
+        productService.deleteProduct(code);
     }
 }

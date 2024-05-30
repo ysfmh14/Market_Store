@@ -55,7 +55,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
         String generatedCodeProductVariant = "PRDV" + UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         ProductVariant productVariantToSave = productVariantMapper.dtoToModel(requestProductVariantDto);
         productVariantToSave.setProductVariantCode(generatedCodeProductVariant);
-        Optional<Product> product = productRepo.findById(requestProductVariantDto.getProductId());
+        Optional<Product> product = productRepo.findByProductCode(requestProductVariantDto.getProductCode());
         productVariantToSave.setProduct(product.get());
         Optional<ProductVariant> existingProductVariant = productVariantRepo.findByProductVariantCode(productVariantToSave.getProductVariantCode());
         if (existingProductVariant.isPresent()) {
@@ -73,7 +73,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
         }
         ProductVariant productVariantToUpdate = productVariantMapper.dtoToModel(requestProductVariantDto);
         productVariantToUpdate.setProductVariantCode(requestProductVariantDto.getProductVariantCode());
-        productVariantToUpdate.setProduct(productRepo.findById(requestProductVariantDto.getProductId()).get());
+        productVariantToUpdate.setProduct(productRepo.findByProductCode(requestProductVariantDto.getProductCode()).get());
         ProductVariant updatedProductVariant= productVariantRepo.save(productVariantToUpdate);
         return productVariantMapper.modelToDto(updatedProductVariant);
     }

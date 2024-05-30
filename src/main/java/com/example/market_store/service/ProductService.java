@@ -12,5 +12,5 @@ public interface ProductService {
     Page<ResponseProductDto> findProductByCriteria(ProductCriteria productCriteria, int page , int size);
     ResponseProductDto addProduct(RequestProductDto requestProductDto);
     ResponseProductDto UpdateProduct(RequestProductDto requestProductDto);
-    void  deleteProduct(long id);
+    void  deleteProduct(String code);
 }

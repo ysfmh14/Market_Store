@@ -28,7 +28,7 @@ public class ProductVariant {
     @Column(name = "available")
     private boolean available;
     @Transient
-    private Long productId;
+    private String productCode;
     @ManyToOne
     private Product product;
 

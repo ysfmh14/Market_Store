@@ -35,4 +35,9 @@ public class StatisticController {
     public ResponseCountOrdersByStatus getCountOrdersByStatus(){
         return statisticService.getCountByStatus();
     }
+    @GetMapping("/countProductsByMonth")
+//    @PreAuthorize("hasRole('admin')")
+    public ResponseCountProductBymonth getCountProductsByMonth(){
+        return statisticService.countProductsForEachMonth();
+    }
 }

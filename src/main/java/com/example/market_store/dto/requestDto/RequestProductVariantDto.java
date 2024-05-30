@@ -17,5 +17,5 @@ public class RequestProductVariantDto {
     private String quantity;
     private String unitPrice;
     private boolean available;
-    private Long productId;
+    private String productCode;
 }

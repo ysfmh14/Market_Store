@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/productvariants")
+@CrossOrigin("*")
 public class ProductVariantController {
     private ProductVariantService productVariantService;
     @GetMapping

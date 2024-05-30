@@ -16,11 +16,13 @@ import com.example.market_store.repositorie.SubCategoryRepo;
 import com.example.market_store.service.ProductService;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ProductServiceImpl implements ProductService {
     private ProductRepo productRepo;
     private SellerRepo sellerRepo;
@@ -62,8 +65,9 @@ public class ProductServiceImpl implements ProductService {
         String generatedCodeProduct = "PRD" + UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         Product productToSave = productMapper.dtoToModel(requestProductDto);
         productToSave.setProductCode(generatedCodeProduct);
-        Optional<Seller>  seller = sellerRepo.findById(requestProductDto.getSellerId());
-        Optional<SubCategory>  subCategory = subCategoryRepo.findById(requestProductDto.getSubCategoryId());
+        productToSave.setCreateDate(LocalDate.now());
+        Optional<Seller>  seller = sellerRepo.findBySellerCode(requestProductDto.getSellerCode());
+        Optional<SubCategory>  subCategory = subCategoryRepo.findBySubCategoryCode(requestProductDto.getSubCategoryCode());
         productToSave.setSeller(seller.get());
         productToSave.setSubCategory(subCategory.get());
         Optional<Product> existingProduct = productRepo.findByProductCode(productToSave.getProductCode());
@@ -82,19 +86,19 @@ public class ProductServiceImpl implements ProductService {
         }
         Product productToUpdate = productMapper.dtoToModel(requestProductDto);
         productToUpdate.setProductCode(requestProductDto.getProductCode());
-        productToUpdate.setSeller(sellerRepo.findById(requestProductDto.getSellerId()).get());
-        productToUpdate.setSubCategory(subCategoryRepo.findById(requestProductDto.getSubCategoryId()).get());
+        productToUpdate.setSeller(sellerRepo.findBySellerCode(requestProductDto.getSellerCode()).get());
+        productToUpdate.setSubCategory(subCategoryRepo.findBySubCategoryCode(requestProductDto.getSubCategoryCode()).get());
         Product updatedProduct= productRepo.save(productToUpdate);
         return productMapper.modelToDto(updatedProduct);
     }
 
 
     @Override
-    public void deleteProduct(long id) {
-        Optional<Product> product = productRepo.findById(id);
+    public void deleteProduct(String code) {
+        Optional<Product> product = productRepo.findByProductCode(code);
         if (product.isEmpty()){
-            throw new EntityNotFoundException("Product Not Found ID :  "+id);
+            throw new EntityNotFoundException("Product Not Found Code :  "+code);
         }
-        productRepo.deleteById(id);
+        productRepo.deleteByProductCode(code);
     }
 }

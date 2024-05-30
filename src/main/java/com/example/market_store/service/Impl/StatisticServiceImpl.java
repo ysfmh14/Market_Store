@@ -1,10 +1,8 @@
 package com.example.market_store.service.Impl;
 
-import com.example.market_store.dto.responseDto.ResponseCountOrdersByStatus;
-import com.example.market_store.dto.responseDto.ResponseOrdersCount;
-import com.example.market_store.dto.responseDto.ResponseSellersCount;
-import com.example.market_store.dto.responseDto.ResponseUsersCount;
+import com.example.market_store.dto.responseDto.*;
 import com.example.market_store.repositorie.OrderRepo;
+import com.example.market_store.repositorie.ProductRepo;
 import com.example.market_store.repositorie.SellerRepo;
 import com.example.market_store.repositorie.UsersRepo;
 import com.example.market_store.service.SellerService;
@@ -12,6 +10,7 @@ import com.example.market_store.service.StatisticService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,6 +20,7 @@ public class StatisticServiceImpl implements StatisticService {
     private OrderRepo orderRepo;
     private UsersRepo usersRepo;
     private SellerRepo sellerRepo;
+    private ProductRepo productRepo;
     @Override
     public ResponseOrdersCount countOrders() {
         ResponseOrdersCount responseOrdersCount = new ResponseOrdersCount();
@@ -55,5 +55,18 @@ public class StatisticServiceImpl implements StatisticService {
         responseCountOrdersByStatus.setOrdersShipped(counts.get("Shipped"));
         responseCountOrdersByStatus.setOrdersInProgress(counts.get("In progress"));
         return responseCountOrdersByStatus;
+    }
+
+    @Override
+    public ResponseCountProductBymonth countProductsForEachMonth() {
+        List<Long> counts = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        ResponseCountProductBymonth responseCountProductBymonth = new ResponseCountProductBymonth();
+        int currentYear = now.getYear();
+        for (int month = 1; month <= 12; month++) {
+            counts.add(productRepo.countByMonth(month, currentYear));
+        }
+        responseCountProductBymonth.setNumberOfProductsByMonths(counts);
+        return responseCountProductBymonth;
     }
 }

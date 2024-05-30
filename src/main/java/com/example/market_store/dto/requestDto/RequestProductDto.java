@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -20,8 +21,9 @@ public class RequestProductDto {
     private List<String> imagesUrl;
     private int quantity;
     private double unitPrice;
+    private LocalDate createDate;
     private boolean available;
-    private Long sellerId;
-    private Long subCategoryId;
+    private String sellerCode;
+    private String subCategoryCode;
 
 }
